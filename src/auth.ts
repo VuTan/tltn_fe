@@ -1,9 +1,9 @@
 import NextAuth from "next-auth";
 import Credentials from "@auth/core/providers/credentials";
-import {InactiveAccountError, InvalidEmailPasswordError} from "@/app/utils/errors";
-import {sendRequest} from "@/app/utils/apis";
+import {InactiveAccountError, InvalidEmailPasswordError} from "@/utils/errors";
+import {sendRequest} from "@/utils/apis";
+import {getSession} from "next-auth/react";
 
-// Đảm bảo rằng "email" là trường đúng, không phải "emil"
 export const {handlers, signIn, signOut, auth} = NextAuth({
     providers: [
         Credentials({
@@ -19,12 +19,12 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
                         ...credentials,
                     },
                 });
-                console.log("API ",res)
                 if (+res.statusCode === 201) {
                     return {
                         _id: res.data?.user?._id,
                         name: res.data?.user?.name,
                         email: res.data?.user?.email,
+                        role:res.data?.user?.role,
                         access_token: res.data?.access_token,
                     };
                 } else if (+res.statusCode === 401) {
@@ -44,9 +44,10 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
         jwt({token, user}) {
             if (user) {
                 token.user = {
-                    id: user.id,
+                    _id: user._id,
                     name: user.name,
                     email: user.email,
+                    role: user.role,
                     access_token: user.access_token,
                 };
             }
@@ -54,7 +55,12 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
         },
         session({session, token}) {
             session.user = token.user;
-            return session;
+            return session
+        },
+        authorized: async ({ auth }) => {
+            // Logged in users are authenticated,
+            //otherwise redirect to login page
+            return !!auth
         },
     },
 });

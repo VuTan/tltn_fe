@@ -1,5 +1,6 @@
 import React from 'react';
-import Item from "@/app/conponents/Slider/Item";
+import Item from "@/conponents/Slider/Item";
+import SkeletonItem from "@/conponents/Slider/SkeletonItem";
 
 function SliderItems() {
 
@@ -10,7 +11,7 @@ function SliderItems() {
             <Item></Item>
             <Item></Item>
             <Item></Item>
-            <Item></Item>
+            <SkeletonItem></SkeletonItem>
         </div>
     );
 }

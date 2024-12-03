@@ -1,5 +1,5 @@
 import {Avatar} from "@mui/material";
-import ActionMethod from "@/app/conponents/actionMethod";
+import ActionMethod from "@/conponents/actionMethod";
 
 export default function Buyer() {
     return (

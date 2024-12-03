@@ -1,6 +1,6 @@
 import React from 'react';
-import RoundButtonDirection from "@/app/conponents/Button/RoundButtonDirection";
-import ItemCategory from "@/app/conponents/Slider/SliderCategory/item";
+import RoundButtonDirection from "@/conponents/Button/RoundButtonDirection";
+import ItemCategory from "@/conponents/Slider/SliderCategory/item";
 import {faMobileScreen} from "@fortawesome/free-solid-svg-icons/faMobileScreen";
 import {faComputer} from "@fortawesome/free-solid-svg-icons/faComputer";
 import {faHeadphones} from "@fortawesome/free-solid-svg-icons/faHeadphones";
@@ -11,22 +11,28 @@ import {faKeyboard} from "@fortawesome/free-regular-svg-icons/faKeyboard";
 const SliderCategory = () => {
     const category = [{
         icon: faMobileScreen,
-        category: "Phone"
+        category: "Phone",
+        link: "Phone"
     }, {
         icon: faComputer,
-        category: "Computer"
+        category: "PC",
+        link: "PC"
     }, {
         icon: faHeadphones,
-        category: "HeadPhones"
+        category: "HeadPhones",
+        link: "Headphones"
     }, {
         icon: faCamera,
-        category: "Camera"
+        category: "Camera",
+        link: "Camera"
     }, {
         icon: faGamepad,
-        category: "Gaming"
+        category: "Laptop",
+        link: "Laptop"
     }, {
         icon: faKeyboard,
-        category: "Keyboard"
+        category: "Keyboard",
+        link: "PC"
     }]
     return (
         <div className="flex flex-col">
@@ -41,9 +47,9 @@ const SliderCategory = () => {
                     <RoundButtonDirection></RoundButtonDirection>
                 </div>
             </div>
-            <div className="flex my-10  justify-between">
+            <div className="flex my-10 justify-between">
                 {category.map((cat, index) => (
-                    <ItemCategory key={index} icon={cat.icon} category={cat.category}/>
+                    <ItemCategory key={index} icon={cat.icon} category={cat.category} link={cat?.link}/>
                 ))}
             </div>
             <hr/>

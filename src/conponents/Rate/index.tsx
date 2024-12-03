@@ -5,10 +5,9 @@ import {faStarHalfStroke} from "@fortawesome/free-solid-svg-icons";
 import {faStar} from "@fortawesome/free-regular-svg-icons/faStar";
 
 
-function ImgItem() {
-
+function ImgItem(props: any) {
+    const {rate} = props;
     const stars = [];
-    var rate = 3.5;
     for (let i = 1; i <= 5; i++) {
         if (i <= Math.floor(rate)) {
             stars.push(<FontAwesomeIcon key={i} icon={faStarFill} className="text-yellow-500 size-4 mr-2"/>);

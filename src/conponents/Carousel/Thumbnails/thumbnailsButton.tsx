@@ -1,8 +1,7 @@
 import React from 'react'
-
 type PropType = {
     selected: boolean
-    index: number
+    index: ChildNode
     onClick: () => void
 }
 
@@ -11,16 +10,16 @@ export const Thumb: React.FC<PropType> = (props) => {
 
     return (
         <div
-            className={'embla-thumbs__slide'.concat(
-                selected ? ' embla-thumbs__slide--selected' : ''
+            className={' thumbnails-thumbs__slide '.concat(
+                selected ? ' thumbnails-thumbs__slide--selected ' : ''
             )}
         >
             <button
                 onClick={onClick}
                 type="button"
-                className="embla-thumbs__slide__number"
+                className="thumbnails-thumbs__slide__number "
             >
-                {index + 1}
+                {index}
             </button>
         </div>
     )

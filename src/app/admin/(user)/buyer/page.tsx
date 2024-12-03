@@ -1,6 +1,5 @@
-import Buyer from "@/app/admin/(user)/buyer/buyer";
+import Buyer from "./buyer";
 import DashboardCardItem from "@/app/admin/dashboard/cardItem";
-import Seller from "@/app/admin/(user)/seller/seller";
 
 export default function UserPage() {
 

@@ -1,4 +1,4 @@
-import Verify from "@/app/(main)/verify/[id]/Verify";
+import ResetPassword from "@/app/(main)/reset_password/[id]/ResetPassword";
 
 const VerifyPage = ({params}: { params: { id: string } }) => {
     const {id} = params;

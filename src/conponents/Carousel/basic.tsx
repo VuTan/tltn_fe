@@ -1,7 +1,7 @@
 'use client'
 import React, {useCallback, useEffect} from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
-import './embla.css'
+import './basic.css'
 import Item from "@/conponents/Slider/item";
 import RoundButtonDirection from "@/conponents/Button/RoundButtonDirection";
 

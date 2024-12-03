@@ -1,45 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-function Popup() {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const closeModal = () => {
-        setIsOpen(false);
-    };
-
-    const openModal = () => {
-        setIsOpen(true);
-    };
+function Popup({
+                   isOpen,
+                   closeModal,
+                   title,
+                   buttonText,
+                   onConfirm,
+                   onCancel,
+                   children, // Nhận children từ props
+               }) {
+    if (!isOpen) return null;
 
     return (
-        <div>
-            {/* Button to open the modal */}
-        <button
-    onClick={openModal}
-    className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-        Open Popup
-    </button>
+        <div className="fixed inset-0 top-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white p-6 rounded-lg">
+                {/* Tiêu đề của Popup */}
+                {title && <h2 className="text-lg font-semibold">{title}</h2>}
 
-    {/* Modal */}
-    {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-        <div className="bg-white p-6 rounded-lg w-80">
-        <h2 className="text-lg font-semibold">This is a Popup</h2>
-    <p className="mt-2 text-gray-600">This is a simple modal using Tailwind CSS.</p>
-    <div className="mt-4 flex justify-end">
-    <button
-        onClick={closeModal}
-        className="px-4 py-2 bg-red-500 text-white rounded"
-            >
-            Close
-            </button>
+                {/* Nội dung chính của Popup */}
+                <div className="mt-2">
+                    {children}
+                </div>
             </div>
-            </div>
-            </div>
-    )}
-    </div>
-);
+        </div>
+    );
 }
 
 export default Popup;

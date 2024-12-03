@@ -1,27 +1,28 @@
 import SkeletonItem from "@/conponents/Slider/SkeletonItem";
-import Item from "@/conponents/Slider/Item";
 import React from "react";
+import Product from "@/app/(main)/shop/[category]/Product";
 
-const ContentShop = () => {
+const ContentShop = (props: any) => {
+    const {isLoading, products, category} = props
     return (
-        <div className="w-full">
+        <>
             <div
-                className="py-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 justify-items-center items-center">
-                <SkeletonItem/>
-                <Item/>
-                <Item/>
-                <Item/>
-                <Item/>
-                <Item/>
-                <Item/>
-                <Item/>
-                <Item/>
-                <Item/>
-                <Item/>
-                <Item/>
-                <Item/>
+                className="py-4 justify-items-center items-center">
+                {isLoading && (
+                    <>
+                        {Array.from({length: 3}).map((_, index) => (
+                            <SkeletonItem key={index}/>
+                        ))}
+                    </>
+                )}
+
+                {products?.map((item) => (
+                    <Product key={item.id} category={category} data={item}/>
+                ))}
+
+
             </div>
-        </div>
+        </>
     );
 }
 export default ContentShop;

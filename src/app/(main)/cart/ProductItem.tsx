@@ -1,6 +1,6 @@
 import Image from "next/image";
-import QuantityButton from "@/app/conponents/Button/QuantityButton";
-import TrashButton from "@/app/conponents/Button/TrashButton";
+import QuantityButton from "@/conponents/Button/QuantityButton";
+import TrashButton from "@/conponents/Button/TrashButton";
 
 export default function ProductCartItem() {
 

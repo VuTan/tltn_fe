@@ -30,7 +30,7 @@ export default function MenuItem({ menuData }: { menuData: MenuData }) { // Cậ
                 className={`pl-4 space-y-2 overflow-hidden transition-[max-height] duration-500 ease-in-out ${isMenuOpen ? 'max-h-40' : 'max-h-0'}`}
             >
                 {menuData.subMenu.map((item, index) => ( // Lặp qua mảng subMenu
-                    <a key={index} href="#" className="block py-2 px-4 hover:bg-gray-200">
+                    <a key={index} href={`${item.toLowerCase()}`} className="block py-2 px-4 hover:bg-gray-200">
                         {item} {/* Hiển thị từng mục trong subMenu */}
                     </a>
                 ))}

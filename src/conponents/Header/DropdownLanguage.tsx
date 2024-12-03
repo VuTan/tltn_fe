@@ -3,14 +3,14 @@ import React, {useState} from 'react';
 import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/react";
 import {ChevronDownIcon} from "@heroicons/react/16/solid";
 
-export interface DropDown {
+export interface DropdownLanguage {
     content: string,
     href: string,
     select: boolean
 }
 
 interface DropdownProps {
-    items: DropDown[];
+    items: DropdownLanguage[];
 }
 
 function Dropdown({items}: DropdownProps) {
@@ -20,7 +20,7 @@ function Dropdown({items}: DropdownProps) {
         return selectedItem ? selectedItem : null;
     };
 
-    const [selectedItem] = useState<DropDown | null>(initializeState);
+    const [selectedItem] = useState<DropdownLanguage | null>(initializeState);
 
 
     return (

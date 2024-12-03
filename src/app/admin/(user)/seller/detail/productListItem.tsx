@@ -1,6 +1,6 @@
 import Image from "next/image";
-import ActionMethod from "@/app/conponents/actionMethod";
-import Rate from "@/app/conponents/Rate";
+import Rate from "@/conponents/Rate";
+import ActionMethod from "@/conponents/actionMethod";
 
 export default function ProductListItem() {
     return (

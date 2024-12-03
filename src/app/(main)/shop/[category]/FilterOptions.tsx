@@ -1,7 +1,6 @@
 'use client'
 import React, {useState} from 'react';
-import {ChevronDownIcon} from "@heroicons/react/16/solid";
-import {ChevronRightIcon} from "@heroicons/react/16/solid";
+import {ChevronDownIcon, ChevronRightIcon} from "@heroicons/react/16/solid";
 
 const FilterOptions = (props: any) => {
     const {title, data} = props;
@@ -14,19 +13,18 @@ const FilterOptions = (props: any) => {
     return (
         <div>
             <div className="flex items-center justify-between cursor-pointer" onClick={handleDrop}>
-                <a className="text-black text-lg font-medium">{title}</a>
+                <a className="text-black text-lg font-bold">{title}</a>
                 {drop ?
                     <ChevronRightIcon className="size-6 text-black font-bold ml-8"/>
                     :
                     <ChevronDownIcon className="size-6 text-black font-bold ml-8"/>}
             </div>
-            <div className={`ml-2 space-y-1 ${drop ? '' : 'hidden'}`}>
-                <p className="text-sm hover:underline cursor-pointer">HP</p>
-                <p className="text-sm hover:underline cursor-pointer">HP</p>
-                <p className="text-sm hover:underline cursor-pointer">HP</p>
-                <p className="text-sm hover:underline cursor-pointer">HP</p>
-                <p className="text-sm hover:underline cursor-pointer">HP</p>
-
+            <div className={`flex flex-col ml-3 space-y-1 ${drop ? '' : 'hidden'}`}>
+                {data?.map((item, index) => (
+                    <a href={`/shop/${title}?subcategory=${item}`} key={index} className="text-md font-normal hover:underline cursor-pointer">
+                        {item}
+                    </a>
+                ))}
             </div>
         </div>
     );

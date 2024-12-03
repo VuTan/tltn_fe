@@ -1,7 +1,5 @@
-import Image from "next/image";
-import ActionMethod from "@/app/conponents/actionMethod";
-import Rate from "@/app/conponents/Rate";
 import Link from "next/link";
+import ActionMethod from "@/conponents/actionMethod";
 import OrderStatus from "@/app/admin/(user)/seller/detail/OrderStatus";
 
 export default function OrderListItem() {

@@ -1,12 +1,12 @@
 .embla {
     margin: auto;
-    --slide-height: 19rem;
+    --slide-height: 25rem;
     --slide-spacing: 1rem;
     --slide-size: 100%;
-    --slide-spacing-sm: 1.6rem;
+    --slide-spacing-sm: 2rem;
     --slide-size-sm: 50%;
-    --slide-spacing-lg: 2rem;
-    --slide-size-lg: calc(100% / 6);
+    --slide-spacing-lg: 3rem;
+    --slide-size-lg: calc(100% / 4);
 }
 .embla__viewport {
     overflow: hidden;

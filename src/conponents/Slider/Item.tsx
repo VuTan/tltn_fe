@@ -1,11 +1,10 @@
 import React from 'react';
-import ImgItem from "@/app/conponents/Slider/ImgItem";
-import Rate from "@/app/conponents/Rate";
+import ImgItem from "@/conponents/Slider/ImgItem";
+import Rate from "@/conponents/Rate";
 import Link from "next/link";
 
 
-function Item() {
-
+function Item(props: any) {
     return (
         <Link href="/shop/product">
             <div className="flex flex-col">

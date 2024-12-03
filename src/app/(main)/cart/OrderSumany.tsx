@@ -27,9 +27,9 @@ export default function OrderSumany() {
                 <div className="flex rounded-full w-3/4 bg-gray-200 p-2 px-4 items-center">
                     <FontAwesomeIcon icon={faTag}
                                      className="size-5 mr-2 pr-2 border-r-2 border-gray-400 text-gray-400"/>
-                    <p className="text-gray-400">Add promo code</p>
+                    <input className="text-gray-400 bg-gray-200" placeholder="Add promo code"></input>
                 </div>
-                <div className="text-white text-center content-center rounded-3xl bg-black w-1/4">
+                <div className="text-white text-center content-center rounded-3xl bg-black w-1/4" >
                     Apply
                 </div>
             </div>

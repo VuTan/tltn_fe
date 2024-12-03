@@ -3,6 +3,8 @@ import {Button} from "@headlessui/react";
 import LoginForm from "@/app/(main)/login/LoginForm";
 import {useState} from "react";
 import RegisterForm from "@/app/(main)/login/RegisterForm";
+import ModelReactive from "@/app/(main)/login/model.reactive";
+import {useDisclosure} from "@nextui-org/react";
 
 const LoginPage = () => {
     const [login, setLogin] = useState(true);

@@ -14,10 +14,13 @@ function ResetPassword(props: any) {
     const router = useRouter();
 
     const onSubmit = async (data: any) => {
-        const {code} = data;
+        if(data.newPass !== data.confirmPass){
+            toast.custom((t) => <ToastError t={t} type="Reset Password" error="Password is not match"/>);
+            return
+        }
         console.log(data)
         const res = await sendRequest<IBackendRes<any>>({
-            url: `http://localhost:8080/api/auth/check-code`,
+            url: `http://localhost:8080/api/auth/reset-password`,
             method: "POST",
             body: {
                 _id: id,
@@ -26,12 +29,12 @@ function ResetPassword(props: any) {
             }
         })
         if (res?.data) {
-            toast.custom((t) => <ToastSuccess t={t} type={"Active"}/>);
+            toast.custom((t) => <ToastSuccess t={t} type={"Reset Password"}/>);
             setTimeout(() => {
                 window.location.href = '/';
             }, 1000);
         } else {
-            toast.custom((t) => <ToastError t={t} type="Active" error={res.message}/>);
+            toast.custom((t) => <ToastError t={t} type="Reset Password" error={res.message}/>);
         }
     };
     return (
@@ -40,9 +43,8 @@ function ResetPassword(props: any) {
                 position="bot-center"
                 reverseOrder={true}
             />
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col mt-4 p-2">
-                <p className="text-lg font-light">The code has been sent to your registered email, please check your
-                    email.</p>
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col mt-4 p-2 items-center">
+                <p className="text-lg font-light">Change your password.</p>
                 <div className="mt-6">
                     <label className="text-black" aria-required={true}>
                         New Password
@@ -68,7 +70,7 @@ function ResetPassword(props: any) {
                 <Button
                     className="rounded bg-white mt-8 mx-24 py-2 px-4 text-black border-2 data-[hover]:bg-black data-[active]:bg-black data-[hover]:text-white "
                     type="submit">
-                    Active
+                    Reset Password
                 </Button>
             </form>
         </>

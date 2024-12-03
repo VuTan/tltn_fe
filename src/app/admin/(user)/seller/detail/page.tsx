@@ -3,12 +3,13 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMapLocationDot} from "@fortawesome/free-solid-svg-icons/faMapLocationDot";
 import {faEnvelope} from "@fortawesome/free-solid-svg-icons/faEnvelope";
 import {faPhone} from "@fortawesome/free-solid-svg-icons/faPhone";
-import Rate from "@/app/conponents/Rate";
 import {LineChart} from "@mui/x-charts/LineChart";
-import CardSeller from "@/app/admin/(user)/seller/detail/card";
 import {Button} from "@headlessui/react";
+import Rate from "@/conponents/Rate";
+import CardSeller from "@/app/admin/(user)/seller/detail/card";
 import ProductListItem from "@/app/admin/(user)/seller/detail/productListItem";
 import OrderListItem from "@/app/admin/(user)/seller/detail/OrderListItem";
+
 
 export default function SellerDetailPage() {
     const data1 = [2400, 1398, 9800, 3908, 4800, 3800, 4300, 1250, 7285, 2255, 6789];
@@ -63,7 +64,7 @@ export default function SellerDetailPage() {
                     </div>
                     <div className="w-4/8 p-4">
                         <LineChart
-                            width={630}
+                            className="w-full"
                             height={275}
                             series={[{data: data1, color: "#00e3fc", label: "Total"}
                                 , {data: data2, color: "#0055fc", label: "Seller"}]}
@@ -74,7 +75,7 @@ export default function SellerDetailPage() {
                 <hr className="mt-4 mx-8"/>
                 <div className="p-8">
                     <h3 className="text-xl font-bold text-left">Our Story: </h3>
-                    <p className="tetx-sm font-light">At ZARA, we believe that fashion is more than just clothing it's
+                    <p className="tetx-sm font-light">At ZARA, we believe that fashion is more than just clothing it' s
                         an
                         expression of individuality and a
                         celebration of diversity. Founded in 2003, our journey began with a simple yet powerful vision:

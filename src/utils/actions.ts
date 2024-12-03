@@ -1,18 +1,16 @@
 'use server'
 
+
 import {signIn} from "@/auth";
 
 export async function authenticate(email: string, password: string) {
-    console.log("run ", email, password)
     try {
-        const r = await signIn("credentials", {
+        return await signIn("credentials", {
             email: email,
             password: password,
             // callbackUrl: "/",
             redirect: false,
-        })
-        console.log(">>> check r: ", r)
-        return r;
+        });
     } catch (error) {
         if ((error as any).name === "InvalidEmailPasswordError") {
             return {

@@ -1,9 +1,9 @@
 import React from 'react';
-import Timer from "@/app/conponents/Slider/Timer";
+import Timer from "@/conponents/Slider/Timer";
 import {Times} from "@/app/model";
-import RoundButtonDirection from "@/app/conponents/Button/RoundButtonDirection";
-import SliderItems from "@/app/conponents/Slider/SliderItems";
-import ViewAllButton from "@/app/conponents/Button/ViewAllButton";
+import RoundButtonDirection from "@/conponents/Button/RoundButtonDirection";
+import SliderItems from "@/conponents/Slider/SliderItems";
+import ViewAllButton from "@/conponents/Button/ViewAllButton";
 
 interface ChildProps {
     title: string,

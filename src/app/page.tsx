@@ -1,11 +1,12 @@
 import {ChevronRightIcon} from "@heroicons/react/24/outline"
 import Image from "next/image";
-import Slider from "@/app/conponents/Slider";
-import SliderCategory from "@/app/conponents/Slider/SliderCategory/SliderCategory";
+import Slider from "@/conponents/Slider";
+import SliderCategory from "@/conponents/Slider/SliderCategory/SliderCategory";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTruckFast} from "@fortawesome/free-solid-svg-icons/faTruckFast";
 import {faHeadset} from "@fortawesome/free-solid-svg-icons/faHeadset";
 import {faShield} from "@fortawesome/free-solid-svg-icons/faShield";
+import {useState} from "react";
 
 export default function Home() {
     return (
@@ -42,6 +43,8 @@ export default function Home() {
                 <div>
                     <Slider title="Today" descibe="Flash Sales" time titleButton="View All Product"></Slider>
                 </div>
+
+
                 <div>
                     <SliderCategory></SliderCategory>
                 </div>
@@ -50,7 +53,7 @@ export default function Home() {
                 </div>
             </div>
             <div className="flex justify-around mx-32 my-24 ">
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center scale-75 transition-transform duration-300 ease-in-out hover:scale-100">
                     <div className="bg-gray-200 p-6 rounded-full">
                         <div className="bg-black p-6 rounded-full">
                             <FontAwesomeIcon icon={faTruckFast} className="text-white size-8"/>
@@ -61,7 +64,7 @@ export default function Home() {
                         <p className="text-black text-center"> Free delivery for all orders over $140 </p>
                     </div>
                 </div>
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center scale-75 transition-transform duration-300 ease-in-out hover:scale-100">
                     <div className="bg-gray-200 p-6 rounded-full">
                         <div className="bg-black p-6 rounded-full">
                             <FontAwesomeIcon icon={faHeadset} className="text-white size-8"/>
@@ -72,7 +75,7 @@ export default function Home() {
                         <p className="text-black text-center"> Friendly 24/7 customer support </p>
                     </div>
                 </div>
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center scale-75 transition-transform duration-300 ease-in-out hover:scale-100">
                     <div className="bg-gray-200 p-6 rounded-full">
                         <div className="bg-black p-6 rounded-full">
                             <FontAwesomeIcon icon={faShield} className="text-white size-8"/>

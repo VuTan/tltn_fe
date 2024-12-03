@@ -1,6 +1,5 @@
 import ProductCartItem from "@/app/(main)/cart/ProductItem";
 import OrderSumany from "@/app/(main)/cart/OrderSumany";
-import {auth} from "@/auth";
 
 const CartPage = () => {
     return (

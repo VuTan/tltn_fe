@@ -41,7 +41,7 @@ export default function Seller() {
 
                 <div className="mt-4">
                     <Progress
-                        label="Electric"
+                        label={" "}
                         value={value}
                         maxValue={10000}
                         color="warning"
@@ -55,23 +55,22 @@ export default function Seller() {
                             value: "text-foreground/60",
                         }}
                         valueLabel={
-                            <span className="flex items-center">
+                            <span className="flex items-center justify-end  ">
                                 ${value/1000}k
                                 <FontAwesomeIcon icon={faArrowTrendUp} className="ml-1 text-green-500" />
                             </span>
                         }
                     />
-                </div>
+                </      div>
 
                 <div className="flex mt-6 justify-between">
                     <div className="justify-items-center">
                         <p>865</p>
                         <p className="font-light">Item Stock</p>
                     </div>
-                    <div className="border"></div>
                     <div className="justify-items-center">
                         <p>865</p>
-                        <p className="font-light">Item Stock</p>
+                        <p className="font-light">Sells</p>
                     </div>
                 </div>
             </div>
