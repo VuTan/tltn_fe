@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffff;
+    --foreground: #ededed;
+  }
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  @apply appearance-none; /* Tailwind class to remove default styles */
+  margin: 0;
+}
+
+body {
+  box-sizing: border-box;
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  h1,h2,h3,h4,h5{
+    color: black;
+    text-align: center;
+  }
+  p{
+    color: black;
+  }
+}
+
+@layer utilities {
+  
+}
