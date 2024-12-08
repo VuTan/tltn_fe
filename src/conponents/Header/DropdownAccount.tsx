@@ -12,7 +12,6 @@ export default function DropdownAccount(props: any) {
     const {session} = props;
     const [user, setUser] = useState(null);  // State lưu người dùng ngẫu nhiên
 
-
     //user
     // useEffect(() => {
     //     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./';
@@ -111,12 +110,12 @@ export default function DropdownAccount(props: any) {
 //
 //
 // // Hàm tạo một order item ngẫu nhiên với trạng thái
-//     const generateRandomOrderItem = (product.ts) => {
-//         if (!product.ts) return null;
+//     const generateRandomOrderItem = (product) => {
+//         if (!product) return null;
 //
 //         const id = generateRandomMongoId(); // Tạo ID ngẫu nhiên cho order item
 //         const quantity = faker.number.int({min: 1, max: 5}); // Số lượng ngẫu nhiên
-//         const price = product.ts.selectedOption ? product.ts.selectedOption.price * quantity : product.ts.price * quantity; // Tính giá
+//         const price = product.selectedOption ? product.selectedOption.price * quantity : product.price * quantity; // Tính giá
 //
 //         // Chọn trạng thái ngẫu nhiên cho order item
 //         const statusOptions = ['Pending', 'Shipped', 'Delivered']; // Các trạng thái có thể có
@@ -124,10 +123,10 @@ export default function DropdownAccount(props: any) {
 //
 //         return {
 //             _id: {$oid: id},
-//             product_id: {$oid: product.ts._id},  // Dùng product.ts._id gốc
+//             product_id: {$oid: product._id},  // Dùng product._id gốc
 //             quantity: quantity,
 //             total_price: price,
-//             option: product.ts.selectedOption ? product.ts.selectedOption : undefined, // Thêm option_id nếu có
+//             option: product.selectedOption ? product.selectedOption : undefined, // Thêm option_id nếu có
 //             status: status, // Thêm trạng thái cho order item
 //         };
 //     };
@@ -135,16 +134,16 @@ export default function DropdownAccount(props: any) {
 // // Hàm tạo nhiều order items ngẫu nhiên với trạng thái
 //     const generateRandomOrderItems = (products) => {
 //         const orderItems = [];
-//         products.forEach((product.ts) => {
+//         products.forEach((product) => {
 //             // Nếu sản phẩm có options, chọn ngẫu nhiên một option
-//             const selectedOption = product.ts.options && product.ts.options.length > 0
-//                 ? product.ts.options[faker.number.int({min: 0, max: product.ts.options.length - 1})]
+//             const selectedOption = product.options && product.options.length > 0
+//                 ? product.options[faker.number.int({min: 0, max: product.options.length - 1})]
 //                 : null;
 //
-//             // Thêm thông tin option vào product.ts (nếu có)
+//             // Thêm thông tin option vào product (nếu có)
 //             const productWithOption = selectedOption
-//                 ? {...product.ts, selectedOption} // Thêm selectedOption vào product.ts
-//                 : product.ts;
+//                 ? {...product, selectedOption} // Thêm selectedOption vào product
+//                 : product;
 //
 //             // Tạo order item từ sản phẩm đã thêm option và thêm trạng thái
 //             const orderItem = generateRandomOrderItem(productWithOption);
@@ -246,6 +245,107 @@ export default function DropdownAccount(props: any) {
 //     console.log(orders)
 //     console.log(orderItemBefore)
 
+    // const [suppliers, setSuppliers] = useState([]); // State lưu suppliers
+    // const [loading, setLoading] = useState(true); // State để kiểm tra trạng thái loading
+    //
+    // useEffect(() => {
+    //     const fetchProducts = async () => {
+    //         try {
+    //             const response = await sendRequest<IBackendRes<any>>({
+    //                 url: "http://localhost:8080/api/product",
+    //                 method: "GET",
+    //             });
+    //
+    //             // Lấy danh sách sản phẩm từ response
+    //             const products = response.data.products;
+    //
+    //             // Gọi hàm để tạo suppliers từ danh sách sản phẩm
+    //             const suppliersData = await createSuppliersFromProducts(products);
+    //
+    //             // Cập nhật state suppliers
+    //             setSuppliers(suppliersData);
+    //             setLoading(false); // Đổi trạng thái loading khi xong
+    //         } catch (error) {
+    //             console.error("Error fetching products:", error);
+    //             setLoading(false); // Đảm bảo loading = false nếu có lỗi
+    //         }
+    //     };
+    //
+    //     fetchProducts();
+    // }, []);
+    //
+    // // Hàm tạo suppliers từ danh sách sản phẩm
+    // async function createSuppliersFromProducts(products) {
+    //     // Mảng sẽ lưu các supplier
+    //     const suppliers = [];
+    //
+    //     // Tạo một đối tượng để nhóm các sản phẩm theo category
+    //     const categories = {};
+    //
+    //     // Duyệt qua tất cả sản phẩm để nhóm theo category
+    //     products.forEach((product) => {
+    //         if (!categories[product.category]) {
+    //             categories[product.category] = [];
+    //         }
+    //         categories[product.category].push(product);
+    //     });
+    //
+    //     // Duyệt qua các category và tạo supplier cho mỗi category
+    //     for (const category in categories) {
+    //         // Lấy người dùng ngẫu nhiên cho supplier
+    //         const user = await fetchRandomUser();
+    //
+    //         // Kiểm tra xem user có tồn tại và có trường _id không
+    //         if (!user || !user._id) {
+    //             console.warn(`User for category ${category} not found or missing _id`);
+    //             continue; // Bỏ qua nếu không tìm được người dùng hợp lệ
+    //         }
+    //
+    //         const supplier = {
+    //             name: category,
+    //             address: faker.location.streetAddress({useFullAddress: true}),
+    //             _id: {$oid: generateObjectId()},
+    //             user_id: {$oid: user._id}, // Gắn user vào supplier
+    //             email: faker.internet.email({firstName: category}),
+    //             phone: faker.phone.number(),
+    //             story: faker.lorem.words(25),
+    //             mission: faker.lorem.words(30),
+    //             isActive: true,
+    //             products: categories[category].map((item) => ({$oid: item._id})), // Chỉ lấy ID sản phẩm
+    //         };
+    //         console.log(supplier)
+    //         suppliers.push(supplier);
+    //     }
+    //     console.log(suppliers)
+    //     return suppliers;
+    // }
+    //
+    // // Hàm lấy người dùng ngẫu nhiên (giả lập hoặc có thể gọi API để lấy)
+    // async function fetchRandomUser() {
+    //     try {
+    //         const response = await sendRequest<IBackendRes<any>>({
+    //             url: "http://localhost:8080/api/users/random", // API lấy người dùng ngẫu nhiên
+    //             method: "GET",
+    //         });
+    //         return response.data[0]; // Giả sử API trả về một người dùng
+    //     } catch (error) {
+    //         console.error("Error fetching user:", error);
+    //         return null; // Trả về null nếu có lỗi
+    //     }
+    // }
+    //
+    // // Hàm tạo ID ngẫu nhiên (giả lập việc tạo ObjectId)
+    // function generateObjectId() {
+    //     const hexDigits = "0123456789abcdef";
+    //     let objectId = "";
+    //     for (let i = 0; i < 24; i++) {
+    //         const randomIndex = Math.floor(Math.random() * hexDigits.length);
+    //         objectId += hexDigits[randomIndex];
+    //     }
+    //     return objectId;
+    // }
+    //
+    // console.log(suppliers)
     return (
         <>
 

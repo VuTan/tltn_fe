@@ -1,7 +1,9 @@
 'use server'
 
 
-import {signIn} from "@/auth";
+import {auth, signIn} from "@/auth";
+import {sendRequest} from "@/utils/apis";
+import {revalidateTag} from "next/cache";
 
 export async function authenticate(email: string, password: string) {
     try {
@@ -31,4 +33,63 @@ export async function authenticate(email: string, password: string) {
         }
 
     }
+}
+
+export const handleCreateAction = async (type, data: any) => {
+    const session = await auth();
+    const res = await sendRequest<IBackendRes<any>>({
+        url: `http://localhost:8080/api/users`,
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${session?.user?.access_token}`,
+        },
+        body: {...data}
+    })
+    revalidateTag(`list-${type}`)
+    return res;
+}
+
+export const handleUpdateAction = async (type, data: any) => {
+    const session = await auth();
+    const res = await sendRequest<IBackendRes<any>>({
+        url: `http://localhost:8080/api/users`,
+        method: "PATCH",
+        headers: {
+            Authorization: `Bearer ${session?.user?.access_token}`,
+        },
+        body: {...data}
+    })
+    revalidateTag(`list-${type}`)
+    return res;
+}
+
+export const handleDeleteAction = async (type, id: any) => {
+    const session = await auth();
+    const res = await sendRequest<IBackendRes<any>>({
+        url: `http://localhost:8080/api/${type}/${id}`,
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${session?.user?.access_token}`,
+        },
+    })
+
+    revalidateTag(`list-${type}`)
+    return res;
+}
+
+export const handleUpdateProduct = async (type,data) => {
+    const session = await auth();
+    const res = await sendRequest<IBackendRes<any>>({
+        url: `http://localhost:8080/api/${type}`,
+        method: "PATCH",
+        body:{
+            ...data
+        },
+        headers: {
+            Authorization: `Bearer ${session?.user?.access_token}`,
+        },
+    })
+
+    revalidateTag(`list-${type}`)
+    return res;
 }

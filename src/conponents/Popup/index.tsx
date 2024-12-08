@@ -1,29 +1,30 @@
-import React from 'react';
+"use client";
 
-function Popup({
-                   isOpen,
-                   closeModal,
-                   title,
-                   buttonText,
-                   onConfirm,
-                   onCancel,
-                   children, // Nhận children từ props
-               }) {
-    if (!isOpen) return null;
+import React from "react";
+
+const Modal = ({ open, onClose, children }) => {
+    if (!open) return null;
 
     return (
-        <div className="fixed inset-0 top-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded-lg">
-                {/* Tiêu đề của Popup */}
-                {title && <h2 className="text-lg font-semibold">{title}</h2>}
-
-                {/* Nội dung chính của Popup */}
-                <div className="mt-2">
-                    {children}
-                </div>
+        <div
+            className="fixed inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.5)] z-50"
+            onClick={onClose} // Đóng modal khi click ra ngoài
+        >
+            <div
+                className="w-full max-w-[700px] bg-white rounded-lg shadow-lg relative p-8 max-h-screen overflow-y-auto"
+                onClick={(e) => e.stopPropagation()} // Ngăn đóng modal khi click vào nội dung bên trong
+            >
+                {/* Nút Close */}
+                <button
+                    className="absolute top-2 right-2 rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-400"
+                    onClick={onClose}
+                >
+                    ✕
+                </button>
+                {children}
             </div>
         </div>
     );
-}
+};
 
-export default Popup;
+export default Modal;

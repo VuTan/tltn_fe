@@ -3,7 +3,7 @@ import {nextui} from '@nextui-org/theme';
 module.exports = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/components/(avatar|calendar|date-picker|modal|progress|skeleton|tabs|button|ripple|spinner|date-input|popover).js"
+    "./node_modules/@nextui-org/theme/dist/components/(avatar|calendar|date-picker|modal|progress|select|skeleton|tabs|button|ripple|spinner|date-input|popover|listbox|divider|scroll-shadow).js"
   ],
     theme: {
         extend: {

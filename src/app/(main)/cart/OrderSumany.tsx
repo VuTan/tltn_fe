@@ -1,14 +1,16 @@
+'use client'
 import {faTag} from "@fortawesome/free-solid-svg-icons/faTag";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useSelector} from "react-redux";
 
 export default function OrderSumany() {
-
+    const cart = useSelector((state) => state.cart);
     return (
         <div className="flex flex-col">
             <h2 className="text-left text-black text-2xl font-bold">Order Summany</h2>
             <div className="flex justify-between mt-4">
                 <p className="text-black font-extralight">Subtotal</p>
-                <p className="text-black font-bold">$ 576.00</p>
+                <p className="text-black font-bold">${cart.cartTotalAmount}</p>
             </div>
             <div className="flex justify-between mt-4">
                 <p className="text-black font-extralight">Discount</p>
@@ -21,7 +23,7 @@ export default function OrderSumany() {
             <hr className="my-4"/>
             <div className="flex justify-between">
                 <p className="text-black">Total</p>
-                <p className="text-black font-bold">$ 591.00</p>
+                <p className="text-black font-bold">${cart.cartTotalAmount}</p>
             </div>
             <div className="flex mt-4 space-x-3">
                 <div className="flex rounded-full w-3/4 bg-gray-200 p-2 px-4 items-center">

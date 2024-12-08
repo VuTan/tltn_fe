@@ -2,17 +2,16 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import {EmblaOptionsType} from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
-import {Thumb} from './thumbnailsButton'
+import {Thumb} from "@/conponents/Carousel/Thumbnails/thumbnailsButton";
+import Image from 'next/image'
 import './thumbnail.css'
-import Image from "next/image";
 
 type PropType = {
-    slides: number[]
+    slides: string[]
     options?: EmblaOptionsType
 }
 
-const ThumbnailsCarousel: React.FC<PropType> = (props) => {
-
+const EmblaCarousel: React.FC<PropType> = (props) => {
     const {slides, options} = props
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [emblaMainRef, emblaMainApi] = useEmblaCarousel(options)
@@ -42,41 +41,38 @@ const ThumbnailsCarousel: React.FC<PropType> = (props) => {
         emblaMainApi.on('select', onSelect).on('reInit', onSelect)
     }, [emblaMainApi, onSelect])
 
+    console.log()
+
     return (
-        <div className="thumbnails flex">
-            {slides?.length > 1 && (
-                <div className="thumbnails-thumbs flex flex-col">
-                    <div className="thumbnails-thumbs__viewport" ref={emblaThumbsRef}>
-                        <div className="thumbnails-thumbs__container ">
-                            {slides?.map((index) => (
-                                <Thumb
-                                    key={index}
-                                    onClick={() => onThumbClick(index)}
-                                    selected={index === selectedIndex}
-                                    index={<div>
-                                        <Image src={index} alt={""} width={75} height={75}/>
-                                    </div>}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            )}
+        <div className="thumbnails">
             <div className="thumbnails__viewport" ref={emblaMainRef}>
                 <div className="thumbnails__container">
-                    {slides?.map((index) => (
-                        <div className="thumbnails__slide" key={index}>
+                    {slides.map((items) => (
+                        <div className="thumbnails__slide" key={items}>
                             <div className="thumbnails__slide__number">
-                                <Image src={index} alt={""} width={700} height={700}/>
+                                <Image src={items} alt="" layout="fill" objectFit="cover" quality={100}/>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
 
-
+            <div className="thumbnails-thumbs">
+                <div className="thumbnails-thumbs__viewport" ref={emblaThumbsRef}>
+                    <div className="thumbnails-thumbs__container">
+                        {slides.map((items, index) => (
+                            <Thumb
+                                key={index}
+                                onClick={() => onThumbClick(index)}
+                                selected={index === selectedIndex}
+                                index={items}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
 
-export default ThumbnailsCarousel
+export default EmblaCarousel

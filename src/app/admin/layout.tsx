@@ -27,14 +27,6 @@ export default async function RootLayout({children,}: Readonly<{
 
     const session = await auth();
 
-    const productMenu = {
-        title: "Product",
-        subMenu: [
-            "All",
-            "Sale",
-        ],
-    };
-
     return (
         <>
             <div className="flex w-full">
@@ -46,7 +38,11 @@ export default async function RootLayout({children,}: Readonly<{
                             </div>
                         </Link>
                         <MenuItem menuData={userMenu}/>
-                        <MenuItem menuData={productMenu}/>
+                        <Link href="/admin/product">
+                            <div className=" w-full text-white text-left py-3 px-4
+                                 hover:bg-gray-800">Product
+                            </div>
+                        </Link>
                     </ul>
                 </nav>
                 <div className="w-5/6">

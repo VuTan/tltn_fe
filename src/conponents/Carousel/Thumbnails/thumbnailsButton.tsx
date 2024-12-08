@@ -1,7 +1,9 @@
 import React from 'react'
+import Image from "next/image";
+
 type PropType = {
     selected: boolean
-    index: ChildNode
+    index: number
     onClick: () => void
 }
 
@@ -10,16 +12,16 @@ export const Thumb: React.FC<PropType> = (props) => {
 
     return (
         <div
-            className={' thumbnails-thumbs__slide '.concat(
-                selected ? ' thumbnails-thumbs__slide--selected ' : ''
+            className={'embla-thumbs__slide'.concat(
+                selected ? ' embla-thumbs__slide--selected' : ''
             )}
         >
             <button
                 onClick={onClick}
                 type="button"
-                className="thumbnails-thumbs__slide__number "
+                className="embla-thumbs__slide__number"
             >
-                {index}
+                <Image src={index} alt="" width={500} height={500}/>
             </button>
         </div>
     )

@@ -3,9 +3,10 @@ import React from "react";
 import ProcessBar from "@/conponents/Product/ProcessBar";
 import Comment from "@/app/(main)/shop/[category]/[id]/Comment";
 import {EmblaCarousel} from "@/conponents/Carousel/basic";
-import ThumbnailsCarousel from "@/conponents/Carousel/Thumbnails/thumbnails";
 import {sendRequest} from "@/utils/apis";
 import InfomationProduct from "@/app/(main)/shop/[category]/[id]/info";
+import {Toaster} from "react-hot-toast";
+import Image from 'next/image'
 
 const ProductPage = async ({params}: { params: { id: string } }) => {
 
@@ -16,9 +17,29 @@ const ProductPage = async ({params}: { params: { id: string } }) => {
 
     return (
         <div className="flex flex-col p-24">
+            <Toaster/>
             <div className="flex">
-                <div className="flex mr-12 w-3/5">
-                    <ThumbnailsCarousel slides={data?.data.imgs}/>
+                <div className="mr-12 w-[45%]">
+                    <div className='flex mx-auto'>
+                        <div className="max-h-[575px] overflow-x-hidden space-y-2">
+                            {data?.data.imgs.map((img, index) => {
+                                return (
+                                    <Image
+                                        className='border p-2 rounded-large'
+                                        key={index}
+                                        src={img}
+                                        alt={`Image ${index}`}
+                                        width={100}
+                                        height={100}
+                                    />
+                                );
+                            })}
+                        </div>
+                        <div className="w-[600px] h-[600px]">
+                            <Image className='rounded-large border p-6' src={data?.data.imgs[0]} width={800}
+                                   height={800}/>
+                        </div>
+                    </div>
                 </div>
                 <InfomationProduct data={data}/>
             </div>

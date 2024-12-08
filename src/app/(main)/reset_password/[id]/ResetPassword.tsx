@@ -31,7 +31,7 @@ function ResetPassword(props: any) {
         if (res?.data) {
             toast.custom((t) => <ToastSuccess t={t} type={"Reset Password"}/>);
             setTimeout(() => {
-                window.location.href = '/';
+                window.location.href = '/login';
             }, 1000);
         } else {
             toast.custom((t) => <ToastError t={t} type="Reset Password" error={res.message}/>);

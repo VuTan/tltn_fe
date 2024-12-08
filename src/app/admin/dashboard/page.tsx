@@ -10,46 +10,54 @@ import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 import {faCartShopping} from "@fortawesome/free-solid-svg-icons/faCartShopping";
 import {faBox} from "@fortawesome/free-solid-svg-icons/faBox";
 import {faDollarSign} from "@fortawesome/free-solid-svg-icons/faDollarSign";
-import {DateRangePicker} from "@nextui-org/date-picker";
-import {parseDate} from "@internationalized/date";
 import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
-
+import {Select, SelectItem} from "@nextui-org/select";
 
 const DashboardPage = () => {
     dayjs.extend(utc)
-    const [dataChart, setDataChart] = useState()
-    const [selectedRange, setSelectedRange] = useState({
-        start: parseDate("2024-01-01"),
-        end: parseDate("2024-12-31"),
-    });
-    const [typeChart, setTypeChart] = useState('monthly')
+    const [day, setDay] = useState(dayjs().format('DD').toString())
+    const [month, setMonth] = useState(dayjs().format('MM').toString())
+    const [year, setYear] = useState(dayjs().format('YYYY').toString())
+    const months = [
+        {key: "01", label: "January"},
+        {key: "02", label: "February"},
+        {key: "03", label: "March"},
+        {key: "04", label: "April"},
+        {key: "05", label: "May"},
+        {key: "06", label: "June"},
+        {key: "07", label: "July"},
+        {key: "08", label: "August"},
+        {key: "09", label: "September"},
+        {key: "10", label: "October"},
+        {key: "11", label: "November"},
+        {key: "12", label: "December"}
+    ]
 
+    const getDaysInMonth = (month: string, year: string) => {
+        const daysInMonth = dayjs(`${year}-${month}`).daysInMonth(); // Lấy số ngày trong tháng
+        return Array.from({length: daysInMonth}, (_, index) => ({
+            key: String(index + 1).padStart(2, "0"), // Đảm bảo định dạng 2 chữ số
+            label: String(index + 1),
+        }));
+    };
+
+    const years = Array.from({length: 50}, (_, index) => ({
+        key: String(2024 - index),
+        label: String(2024 - index),
+    }));
+
+    const [dataChart, setDataChart] = useState()
+    const [fetchChart, setFetchChart] = useState(false)
+    const [typeChart, setTypeChart] = useState('Day')
     const [countOrder, setCountOrder] = new useState()
     const [countItems, setCountItems] = new useState()
 
     const {data: session} = useSession()
 
     const handleSelectChart = (event: React.MouseEvent<HTMLElement>, newValue: string) => {
-            setTypeChart(newValue)
-            if (newValue === "daily") {
-                setSelectedRange({
-                    start: parseDate(dayjs().startOf('month').format("YYYY-MM-DD")),
-                    end: parseDate(dayjs().endOf('month').format("YYYY-MM-DD")),
-                })
-            } else if (newValue === "monthly") {
-                setSelectedRange({
-                    start: parseDate(dayjs().startOf('year').format("YYYY-MM-DD")),
-                    end: parseDate(dayjs().endOf('year').format("YYYY-MM-DD")),
-                })
-            } else {
-                setSelectedRange({
-                    start: parseDate(dayjs().startOf('year').subtract(3, 'year').format("YYYY-MM-DD")),
-                    end: parseDate(dayjs().startOf('year').format("YYYY-MM-DD")),
-                })
-            }
-        }
-    ;
+        setTypeChart(newValue)
+    }
 
     useEffect(() => {
         if (session) {
@@ -80,32 +88,48 @@ const DashboardPage = () => {
     }, [session]);
 
     useEffect(() => {
-        if (session) {
-            sendRequest<IBackendRes<any>>({
-                url: `http://localhost:8080/api/order/revenue`,
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${session?.user?.access_token}`
-                },
-                queryParams: {
-                    start: selectedRange.start,
-                    end: selectedRange.end,
-                    groupBy: typeChart
-                }
-            }).then((response) => {
-                setDataChart(response.data);
-            }).catch((error) => {
-                console.error('Error fetching data:', error);
-            });
+        if (day && month && year) {
+            setFetchChart(true);
         }
-    }, [typeChart, session, selectedRange]);
+    }, [day, month, year, typeChart]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            if (session && fetchChart) {
+                try {
+                    const response = await sendRequest<IBackendRes<any>>({
+                        url: `http://localhost:8080/api/order/${typeChart}`,
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${session?.user?.access_token}`,
+                        },
+                        queryParams: {
+                            day: day,
+                            month: month,
+                            year: year,
+                        },
+                    });
 
-    console.log(dataChart)
-    const revenue = dataChart?.map(item => item.totalRevenue);
-    const productSell = dataChart?.map(item => item.totalProductsSell);
-    const totalDelivery = dataChart?.map(item => item.totalDeliveryFee);
-    const xLabels = dataChart?.map(item => item.title);
+                    setDataChart(response.data);
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                } finally {
+                    setFetchChart(false);
+                }
+            }
+        };
+
+        if (fetchChart) {
+            fetchData();
+        }
+
+    }, [session, typeChart, fetchChart, day, month, year]);
+
+    const revenue = Array.isArray(dataChart) ? dataChart.map(item => item.totalRevenue) : [];
+    const productSell = Array.isArray(dataChart) ? dataChart.map(item => item.totalProductsSell) : [];
+    const totalDelivery = Array.isArray(dataChart) ? dataChart.map(item => item.totalDeliveryFee) : [];
+    const xLabels = Array.isArray(dataChart) ? dataChart.map(item => item.title.split("-").pop()) : [];
+
 
     return (
         <>
@@ -120,23 +144,61 @@ const DashboardPage = () => {
             </div>
             <div className=" p-4 bg-white mt-8 border-[1px] rounded">
                 <div className="flex justify-between items-center">
-                    <div className="flex flex-col">
-                        <DateRangePicker
-                            label="Stay duration"
-                            className="max-w-xs"
-                            onChange={(range) => {
-                                setSelectedRange(range);
-                            }}
-                            value={{
-                                start: selectedRange.start,
-                                end: selectedRange.end,
-                            }}
-                            defaultValue={{
-                                start: parseDate("2024-01-01"),
-                                end: parseDate("2024-12-31"),
-                            }}
+                    <div className="flex space-x-4">
+                        {typeChart === "Hour" && (
+                            <>
+                                <Select label="Year" placeholder="Select year" defaultSelectedKeys={[year]}
+                                        className="mb-4 min-w-36"
+                                        onSelectionChange={(value) => setYear(value.currentKey)}>
+                                    {years.map((year) => (
+                                        <SelectItem key={year.key}>{year.label}</SelectItem>
+                                    ))}
+                                </Select>
+                                <Select label="Month" placeholder="Select month" defaultSelectedKeys={[month]}
+                                        className="mb-4 min-w-36"
+                                        onSelectionChange={(value) => setMonth(value.currentKey)}>
+                                    {months.map((month) => (
+                                        <SelectItem key={month.key}>{month.label}</SelectItem>
+                                    ))}
+                                </Select>
+                                <Select label="Day" placeholder="Select day" defaultSelectedKeys={[day]}
+                                        className="mb-4 min-w-36"
+                                        onSelectionChange={(value) => setDay(value.currentKey)}>
+                                    {getDaysInMonth(month).map((day) => (
+                                        <SelectItem key={day.key}>{day.label}</SelectItem>
+                                    ))}
+                                </Select>
+                            </>
+                        )}
+                        {typeChart === "Day" && (
+                            <>
+                                <Select label="Year" placeholder="Select year" defaultSelectedKeys={[year]}
+                                        className="mb-4 min-w-36"
+                                        onSelectionChange={(value) => setYear(value.currentKey)}>
+                                    {years.map((year) => (
+                                        <SelectItem key={year.key}>{year.label}</SelectItem>
+                                    ))}
+                                </Select>
+                                <Select label="Month" placeholder="Select month" defaultSelectedKeys={[month]}
+                                        className="mb-4 min-w-36"
+                                        onSelectionChange={(value) => setMonth(value.currentKey)}>
+                                    {months.map((month) => (
+                                        <SelectItem key={month.key}>{month.label}</SelectItem>
+                                    ))}
+                                </Select>
+                            </>
+                        )}
 
-                        />
+                        {typeChart === "Month" && (
+                            <Select label="Year" placeholder="Select year" defaultSelectedKeys={[year]}
+                                    className="mb-4 min-w-36"
+                                    onSelectionChange={(value) => setYear(value.currentKey)}>
+                                {years.map((year) => (
+                                    <SelectItem key={year.key}>{year.label}</SelectItem>
+                                ))}
+                            </Select>
+                        )}
+
                     </div>
                     <div className="flex">
                         <div className="flex flex-wrap gap-4">
@@ -148,9 +210,9 @@ const DashboardPage = () => {
                                 aria-label="Platform"
                                 className="rounded-full"
                             >
-                                <ToggleButton value="daily">Day</ToggleButton>
-                                <ToggleButton value="monthly">Month</ToggleButton>
-                                <ToggleButton value="yearly">Year</ToggleButton>
+                                <ToggleButton value="Hour">Day</ToggleButton>
+                                <ToggleButton value="Day">Month</ToggleButton>
+                                <ToggleButton value="Month">Year</ToggleButton>
                             </ToggleButtonGroup>
                         </div>
                     </div>
@@ -159,14 +221,14 @@ const DashboardPage = () => {
                     <> <LineChart
                         height={275}
                         series={[{data: revenue, color: "#00e3fc", label: "Revenue"}]}
-                        xAxis={[{scaleType: 'point', data: xLabels}]}
+                        xAxis={[{scaleType: 'point', label: typeChart, data: xLabels}]}
 
                     ></LineChart>
                         <LineChart
                             height={275}
                             series={[{data: productSell, color: "#0055fc", label: "Product Sell"},
                                 {data: totalDelivery, color: "#000000", label: "Delivery Fee"}]}
-                            xAxis={[{scaleType: 'point', data: xLabels}]}
+                            xAxis={[{scaleType: 'point', label: typeChart, data: xLabels}]}
                         ></LineChart>
                     </>
                 )}

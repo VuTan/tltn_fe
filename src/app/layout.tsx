@@ -5,6 +5,7 @@ import Header from "@/conponents/Header";
 import Footer from "@/conponents/Footer";
 import NextAuthWrapper from "@/lib/next.auth.wrapper";
 import {auth} from "@/auth";
+import ClientProvider from "@/app/ClientProvider";
 
 const public_sans = Public_Sans({subsets: ["vietnamese"]});
 
@@ -24,10 +25,11 @@ export default async function RootLayout({children,}: Readonly<{
             className={public_sans.className + " min-h-screen flex flex-col"}
         >
         <NextAuthWrapper>
-
-            <Header/>
-            <div className="flex-grow">{children}</div>
-            <Footer/>
+            <ClientProvider>
+                <Header/>
+                <div className="flex-grow">{children}</div>
+                <Footer/>
+            </ClientProvider>
         </NextAuthWrapper>
         </body>
         </html>

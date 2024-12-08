@@ -43,6 +43,9 @@ async function Header() {
                     {session?.user.role === "ADMIN" && (
                         <Link href="/admin/dashboard" className="mx-12 text-xl text-black">Admin</Link>
                     )}
+                    {session?.user.role === "SELLER" && (
+                        <Link href={"/store"} className="mx-12 text-xl text-black">My Store</Link>
+                    )}
                 </div>
                 <div className="flex items-center">
                     <SearchBar></SearchBar>

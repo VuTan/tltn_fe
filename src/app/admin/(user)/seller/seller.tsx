@@ -5,8 +5,8 @@ import {faMapLocationDot} from "@fortawesome/free-solid-svg-icons/faMapLocationD
 import {faEnvelope} from "@fortawesome/free-solid-svg-icons/faEnvelope";
 import {faPhone} from "@fortawesome/free-solid-svg-icons/faPhone";
 import {Progress} from "@nextui-org/progress";
-import {faDollarSign} from "@fortawesome/free-solid-svg-icons/faDollarSign";
 import {faArrowTrendUp} from "@fortawesome/free-solid-svg-icons/faArrowTrendUp";
+import Link from "next/link";
 
 export default function Seller() {
     const value = 7800;
@@ -56,8 +56,8 @@ export default function Seller() {
                         }}
                         valueLabel={
                             <span className="flex items-center justify-end  ">
-                                ${value/1000}k
-                                <FontAwesomeIcon icon={faArrowTrendUp} className="ml-1 text-green-500" />
+                                ${value / 1000}k
+                                <FontAwesomeIcon icon={faArrowTrendUp} className="ml-1 text-green-500"/>
                             </span>
                         }
                     />
@@ -75,9 +75,10 @@ export default function Seller() {
                 </div>
             </div>
             <hr/>
-            <div className="grid grid-cols-2 gap-6 p-4">
-                <button className="p-2 rounded-lg text-lg text-white font-semibold bg-orange-600">View Profile</button>
-                <button className="p-2 rounded-lg text-lg text-white font-semibold bg-orange-600">Edit Profile</button>
+            <div className="p-4">
+                <div className="flex p-2 rounded-lg text-lg text-white font-semibold bg-orange-600 justify-center">
+                    <Link href={'/admin/seller/detail'}>View Profile</Link>
+                </div>
             </div>
         </div>
     );

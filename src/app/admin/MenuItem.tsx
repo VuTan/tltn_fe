@@ -3,6 +3,7 @@ import { useState } from "react";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons/faCaretDown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretUp } from "@fortawesome/free-solid-svg-icons/faCaretUp";
+import Link from "next/link";
 
 interface MenuData {
     title: string;
@@ -29,10 +30,10 @@ export default function MenuItem({ menuData }: { menuData: MenuData }) { // Cậ
             <div
                 className={`pl-4 space-y-2 overflow-hidden transition-[max-height] duration-500 ease-in-out ${isMenuOpen ? 'max-h-40' : 'max-h-0'}`}
             >
-                {menuData.subMenu.map((item, index) => ( // Lặp qua mảng subMenu
-                    <a key={index} href={`${item.toLowerCase()}`} className="block py-2 px-4 hover:bg-gray-200">
-                        {item} {/* Hiển thị từng mục trong subMenu */}
-                    </a>
+                {menuData.subMenu.map((item, index) => (
+                    <Link key={index} href={`/admin/${item.toLowerCase()}`} className="block py-2 px-4 hover:bg-gray-200">
+                        {item}
+                    </Link>
                 ))}
             </div>
         </li>

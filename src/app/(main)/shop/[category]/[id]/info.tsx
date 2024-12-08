@@ -1,23 +1,51 @@
 'use client'
 import Rate from "@/conponents/Rate";
 import React, {useState} from "react";
-import Spec from "@/app/(main)/shop/[category]/[id]/Spec";
 import OptionsRadio from "@/conponents/Product/Options";
 import QuantityButton from "@/conponents/Button/QuantityButton";
-import ViewAllButton from "@/conponents/Button/ViewAllButton";
 import FavoriteButton from "@/conponents/Button/FavoriteButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTruckFast} from "@fortawesome/free-solid-svg-icons/faTruckFast";
 import {faClockRotateLeft} from "@fortawesome/free-solid-svg-icons/faClockRotateLeft";
+import Spec from "@/app/(main)/shop/[category]/[id]/spec";
+import {Product} from "@/models/Product";
+import {useDispatch} from "react-redux";
+import {addProduct} from "@/redux/cart.reducer";
 
 const InfomationProduct = ({data}) => {
     const [selectedOption, setSelectedOption] = useState();
+    const [quantity, setQuantity] = useState(1)
+    const [showAll, setShowAll] = useState(false)
+    const dispatch = useDispatch()
+
     const handleOptionChange = (option: string) => {
         setSelectedOption(option);
     };
 
+    console.log(data)
+
+
+    const handleQuantityChange = (newQuantity: number) => {
+        setQuantity(newQuantity);
+        console.log("Số lượng cập nhật từ component con:", newQuantity);
+    };
+
+    const handleAddToCart = (data) => {
+        const product: Product = {
+            _id: data._id,
+            name: data.name,
+            option: selectedOption,
+            price: selectedOption ? selectedOption.price : data.price,
+            quantity: quantity,
+            img: data.imgs[0]
+        }
+        console.log("Dispatching Product:", product);
+        dispatch(addProduct(product))
+
+    }
+
     return (
-        <div className="w-2/5">
+        <div className="w-[55%]">
             <h1 className="text-2xl font-bold text-left">{data?.data.name}</h1>
             <div className="flex mt-2 items-center">
                 <Rate rate={data?.data.rate}></Rate>
@@ -28,13 +56,19 @@ const InfomationProduct = ({data}) => {
             <hr className="border-[1px] border-black my-6"/>
             <div className="flex flex-col">
                 <div className="pt-4 items-center space-y-2">
-                    <p className="text-lg font-semibold">Options</p>
-                    <OptionsRadio options={data?.data.options} onOptionChange={handleOptionChange}/>
+                    {data?.data.options.isEmpty && (<>
+                            <p className="text-lg font-semibold">Options</p>
+                            <OptionsRadio options={data?.data.options} onOptionChange={handleOptionChange}/>
+                        </>
+                    )}
                 </div>
                 <div className="flex mt-6 justify-between">
-                    <QuantityButton></QuantityButton>
+                    <QuantityButton quantity={quantity} onQuantityChange={handleQuantityChange}></QuantityButton>
                     <div className="flex space-x-4">
-                        <div className="min-w-40 content-center"><ViewAllButton title="Buy Now"></ViewAllButton>
+                        <div className="min-w-40 content-center">
+                            <button className="w-full text-center bg-red-500 p-2 rounded-lg"
+                                    onClick={() => handleAddToCart(data?.data)}>Buy Now
+                            </button>
                         </div>
                         <div className="px-1 rounded-lg content-center border-2 select-none"><FavoriteButton
                             favorite></FavoriteButton></div>
@@ -61,11 +95,29 @@ const InfomationProduct = ({data}) => {
 
                 <div className="mt-12">
                     <p className="text-lg font-semibold">About this item</p>
-                    {data?.data.des.map((item, index) => {
-                        return (<li className="list-disc" key={index}>{item}</li>)
-                    })}
 
+                    {data?.data.des && (
+                        <>
+                            {/* Hiển thị danh sách mô tả */}
+                            {(showAll ? data.data.des : data.data.des.slice(0, 1)).map((item, index) => (
+                                <li className="list-disc" key={index}>
+                                    {item}
+                                </li>
+                            ))}
+
+                            {/* Nút See More / See Less */}
+                            {data.data.des.length > 1 && (
+                                <button
+                                    onClick={() => setShowAll(!showAll)} // Toggle trạng thái
+                                    className="mt-2 text-blue-500 hover:underline"
+                                >
+                                    {showAll ? 'See less' : 'See more'}
+                                </button>
+                            )}
+                        </>
+                    )}
                 </div>
+
 
             </div>
         </div>
