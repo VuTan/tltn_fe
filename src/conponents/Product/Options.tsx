@@ -13,6 +13,7 @@ export default function OptionsRadio({ options, onOptionChange }: OptionsRadioPr
     const [selected, setSelected] = useState<Options | null>(options.length > 0 ? options[0] : null);
     const [showAll, setShowAll] = useState(false); // State để kiểm soát hiển thị
 
+    console.log(options)
     const handleChange = (selectedValue: string) => {
         const selectedOption = options.find((option) => option.type === selectedValue);
         if (selectedOption) {

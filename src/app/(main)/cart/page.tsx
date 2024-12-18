@@ -25,10 +25,10 @@ const CartPage = () => {
             <div className="flex space-x-8 mt-4">
                 <div className="w-2/3 border-2 rounded-lg p-8">
                     {cart?.cartArr?.length > 0 ? (
-                        cart.cartArr.map((product) => (
+                        cart.cartArr.map((product, index) => (
                             <div key={product._id}>
                                 <ProductCartItem product={product}/>
-                                <hr className="my-8"/>
+                                {index < cart.cartArr.length - 1 && <hr className="my-8"/>}
                             </div>
                         ))
                     ) : (

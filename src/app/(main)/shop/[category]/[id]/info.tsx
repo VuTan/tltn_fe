@@ -56,7 +56,7 @@ const InfomationProduct = ({data}) => {
             <hr className="border-[1px] border-black my-6"/>
             <div className="flex flex-col">
                 <div className="pt-4 items-center space-y-2">
-                    {data?.data.options.isEmpty && (<>
+                    {data?.data.options && (<>
                             <p className="text-lg font-semibold">Options</p>
                             <OptionsRadio options={data?.data.options} onOptionChange={handleOptionChange}/>
                         </>

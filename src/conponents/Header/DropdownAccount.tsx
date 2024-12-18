@@ -69,6 +69,7 @@ export default function DropdownAccount(props: any) {
     // order
 //     const [orders, setOrders] = useState([]);  // State lưu danh sách đơn hàng
 //     const [orderItemBefore, setOrderItemBefore] = useState([]);  // State lưu tất cả các order item ngẫu nhiên
+//     const [date, setDate] = useState()
 //
 // // Hàm lấy người dùng ngẫu nhiên
 //     const fetchRandomUser = async () => {
@@ -88,14 +89,14 @@ export default function DropdownAccount(props: any) {
 //         }
 //     };
 //
-// // Hàm tạo một ID Mongo ngẫu nhiên
+//     // Hàm tạo một ID Mongo ngẫu nhiên
 //     const generateRandomMongoId = () => {
 //         const timestamp = Math.floor(Date.now() / 1000).toString(16); // Lấy timestamp 4 byte
 //         const randomValue = Math.floor(Math.random() * 0xFFFFFF).toString(16); // 3 byte ngẫu nhiên
 //         const increment = Math.floor(Math.random() * 0xFFFFFF).toString(16); // 3 byte incremental
 //
 //         const characters = 'abcdef0123456789';
-//         var incre = "";
+//         let incre = "";
 //         for (let i = 0; i < 4; i++) {
 //             incre += characters.charAt(Math.floor(Math.random() * characters.length));
 //         }
@@ -108,9 +109,26 @@ export default function DropdownAccount(props: any) {
 //         return fullId; // Đảm bảo chuỗi có đúng 24 ký tự
 //     };
 //
+//     const PREDEFINED_STEPS = [
+//         {title: 'Packaging', description: 'Product is being packaged'},
+//         {title: 'Quality Check', description: 'Ensuring product quality'},
+//         {title: 'Delivering', description: 'Order is out for delivery'},
+//         {title: 'Delivered', description: 'Order has been delivered'},
+//         {title: 'Return Process', description: 'Processing return request'},
+//         {title: 'Refund Initiated', description: 'Refund is being processed'},
+//     ];
+//
+// // Hàm tạo trạng thái timeline ngẫu nhiên
+//     const generateRandomTimeline = () => {
+//         // Chọn số bước ngẫu nhiên (từ 1 đến tất cả các bước)
+//         const stepCount = faker.number.int({min: 1, max: PREDEFINED_STEPS.length});
+//
+//         // Lấy ngẫu nhiên stepCount bước trong PREDEFINED_STEPS, đảm bảo theo thứ tự timeline
+//         return PREDEFINED_STEPS.slice(0, stepCount);
+//     };
 //
 // // Hàm tạo một order item ngẫu nhiên với trạng thái
-//     const generateRandomOrderItem = (product) => {
+//     const generateRandomOrderItem = (product, createdAt) => {
 //         if (!product) return null;
 //
 //         const id = generateRandomMongoId(); // Tạo ID ngẫu nhiên cho order item
@@ -118,8 +136,7 @@ export default function DropdownAccount(props: any) {
 //         const price = product.selectedOption ? product.selectedOption.price * quantity : product.price * quantity; // Tính giá
 //
 //         // Chọn trạng thái ngẫu nhiên cho order item
-//         const statusOptions = ['Pending', 'Shipped', 'Delivered']; // Các trạng thái có thể có
-//         const status = statusOptions[faker.number.int({min: 0, max: statusOptions.length - 1})]; // Chọn ngẫu nhiên trạng thái
+//         const timeline = generateRandomTimeline();
 //
 //         return {
 //             _id: {$oid: id},
@@ -127,12 +144,13 @@ export default function DropdownAccount(props: any) {
 //             quantity: quantity,
 //             total_price: price,
 //             option: product.selectedOption ? product.selectedOption : undefined, // Thêm option_id nếu có
-//             status: status, // Thêm trạng thái cho order item
+//             status: timeline, // Thêm trạng thái cho order item
+//             createdAt: {$date: {$numberLong: createdAt.getTime().toString()}}
 //         };
 //     };
 //
 // // Hàm tạo nhiều order items ngẫu nhiên với trạng thái
-//     const generateRandomOrderItems = (products) => {
+//     const generateRandomOrderItems = (products, createdAt) => {
 //         const orderItems = [];
 //         products.forEach((product) => {
 //             // Nếu sản phẩm có options, chọn ngẫu nhiên một option
@@ -146,14 +164,15 @@ export default function DropdownAccount(props: any) {
 //                 : product;
 //
 //             // Tạo order item từ sản phẩm đã thêm option và thêm trạng thái
-//             const orderItem = generateRandomOrderItem(productWithOption);
+//             const orderItem = generateRandomOrderItem(productWithOption, createdAt);
+//
 //             if (orderItem) orderItems.push(orderItem);
 //         });
 //         return orderItems;
 //     };
 //
 // // Hàm lấy nhiều sản phẩm ngẫu nhiên (gọi API nhiều lần)
-//     const fetchRandomProducts = async () => {
+//     const fetchRandomProducts = async (createdAt) => {
 //         try {
 //             const lop = faker.number.int({min: 1, max: 5});
 //             const requests = Array.from({length: lop}, () =>
@@ -170,28 +189,19 @@ export default function DropdownAccount(props: any) {
 //             const products = responses.map((response) => response.data[0]);
 //
 //             // Tạo order items từ các sản phẩm ngẫu nhiên
-//             const orderItemsList = generateRandomOrderItems(products);
+//             const orderItemsList = generateRandomOrderItems(products, createdAt);
 //
 //             // Lưu tất cả các order items vào orderItemBefore
 //             setOrderItemBefore((prevItems) => [...prevItems, ...orderItemsList]);
-//
 //             return orderItemsList;
 //         } catch (error) {
 //             console.error("Error fetching products:", error);
+//             return []; // Trả về mảng rỗng nếu có lỗi
 //         }
 //     };
 //
-// // Hàm kiểm tra đơn hàng đã tồn tại trong ngày hôm nay
-//     const isOrderExists = (newOrder) => {
-//         const today = new Date();
-//         return orders.some((order) => {
-//             const orderDate = new Date(order.createdAt.$date.$numberLong);
-//             return orderDate.toDateString() === today.toDateString();
-//         });
-//     };
-//
 // // Hàm tạo một đơn hàng ngẫu nhiên cho mỗi người dùng
-//     const createOrderForUser = (orderItemsList) => {
+//     const createOrderForUser = (orderItemsList,createdAt) => {
 //         if (!user || orderItemsList.length === 0) {
 //             console.error("Không thể tạo đơn hàng vì thiếu dữ liệu người dùng hoặc order items");
 //             return;
@@ -202,48 +212,45 @@ export default function DropdownAccount(props: any) {
 //             const totalPrice = orderItemsList.reduce((acc, item) => acc + item.total_price, 0);
 //             const deliveryFee = faker.number.int({min: 5, max: 20}); // Phí vận chuyển mặc định
 //
-//             const now = new Date(); // Lấy thời điểm hiện tại
-//             const startOfYear = new Date(now.getFullYear(), 0, 1); // Đầu năm hiện tại
-//             const createdAt = faker.date.between({from: startOfYear, to: now});
+//             const now = new Date()
 //             const updatedAt = faker.date.between({from: createdAt, to: now});
 //
 //             const newOrder = {
 //                 user: {$oid: user._id}, // Thêm user ID vào
-//                 total_price: totalPrice, // Tổng giá trị đơn hàng (bao gồm phí vận chuyển)
+//                 total_price: totalPrice + deliveryFee, // Tổng giá trị đơn hàng (bao gồm phí vận chuyển)
 //                 delivery_fee: deliveryFee,
 //                 orderItems: orderItemsList.map((item) => (item._id)), // Lưu id của các order item
 //                 createdAt: {$date: {$numberLong: createdAt.getTime().toString()}}, // Ngày tạo
 //                 updatedAt: {$date: {$numberLong: updatedAt.getTime().toString()}}, // Ngày cập nhật
 //             };
 //
-//             // Kiểm tra xem đơn hàng đã tồn tại hay chưa
-//             if (!isOrderExists(newOrder)) {
-//                 // Cập nhật danh sách đơn hàng nếu chưa tồn tại đơn hàng trùng ngày
-//                 setOrders((prevOrders) => [...prevOrders, newOrder]);
-//             } else {
-//                 console.log("Đơn hàng đã tồn tại trong ngày hôm nay.");
-//             }
+//             setOrders((prevOrders) => [...prevOrders, newOrder]);
+//
 //         } catch (error) {
 //             console.error("Error creating order:", error);
 //         }
 //     };
 //
-//
 //     useEffect(() => {
-//
-//         for (let i = 0; i < 1; i++) {
+//         const initializeOrder = async () => {
 //             if (!user) {
-//                 fetchRandomUser(); // Chỉ gọi fetchRandomUser nếu chưa có user
+//                 await fetchRandomUser(); // Chỉ gọi fetchRandomUser nếu chưa có user
 //             } else {
-//                 fetchRandomProducts().then((orderItemsList) => {
-//                     createOrderForUser(orderItemsList); // Tạo đơn hàng cho user với các orderItems
-//                 });
+//                 const now = new Date(); // Lấy thời điểm hiện tại
+//                 const startOfYear = new Date(now.getFullYear(), 0, 1); // Đầu năm hiện tại
+//                 const createdAt = faker.date.between({from: startOfYear, to: now});
+//                 const orderItemsList = await fetchRandomProducts(createdAt);
+//                 createOrderForUser(orderItemsList, createdAt); // Tạo đơn hàng cho user với các orderItems
 //             }
+//         };
+//
+//         for(let i=0; i < 20; i++){
+//             initializeOrder();
 //         }
 //     }, [user]);  // Khi user thay đổi, gọi lại hàm fetchRandomProducts và tạo các đơn hàng
 //
-//     console.log(orders)
-//     console.log(orderItemBefore)
+//     console.log("Order", orders);
+//     console.log("Order items", orderItemBefore);
 
     // const [suppliers, setSuppliers] = useState([]); // State lưu suppliers
     // const [loading, setLoading] = useState(true); // State để kiểm tra trạng thái loading

@@ -1,6 +1,6 @@
-import ContentProfile from "@/app/(main)/profile/Profile";
 import {auth} from "@/auth";
 import {sendRequest} from "@/utils/apis";
+import ContentProfile from "@/app/(main)/profile/Content";
 
 const Profile = async () => {
     const session = await auth();
@@ -22,7 +22,6 @@ const Profile = async () => {
         }
     })
 
-    //
 
     return (
         <div className="px-24 py-12">

@@ -63,7 +63,7 @@ export default async function AmdinPage(props: IProps) {
             <div className="mt-8 bg-gray-200 p-6 bg-white">
                 <div className="flex justify-between items-center my-2">
                     <h3 className="text-left text-xl font-semibold">Product</h3>
-                    <SearchBar placeholder={"Search user..."}/>
+                    <SearchBar placeholder={"Search product..."}/>
                 </div>
                 <TableHeader header={header}/>
                 {data && data ? data?.data?.products?.map((item) => (

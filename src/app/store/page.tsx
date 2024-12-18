@@ -19,6 +19,8 @@ import {sendRequest} from "@/utils/apis";
 import TableHeader from "@/app/admin/(user)/buyer/TableHeader";
 import PaginationComponent from "@/conponents/Pagination";
 import ProductListItem from "@/app/admin/(user)/seller/detail/productListItem";
+import SearchBar from "@/app/admin/(user)/buyer/SearchBar";
+import Modal from "@/conponents/Popup";
 
 interface IProps {
     params: { id: string }
@@ -43,6 +45,7 @@ export default function StorePage(props: IProps) {
     const [fetchChart, setFetchChart] = useState(false)
     const [typeChart, setTypeChart] = useState('Day')
     const [product, setProduct] = useState(null)
+    const [order, setOrder] = useState(null)
 
     const current = props?.searchParams?.page ?? 1;
     const limit = props?.searchParams?.limit ?? 10;
@@ -150,9 +153,38 @@ export default function StorePage(props: IProps) {
             }
         };
 
+        fetchData();
+    }, [props.searchParams, session]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (session) {
+                try {
+                    const response = await sendRequest<IBackendRes<any>>({
+                        url: `http://localhost:8080/api/supplier/${session?.user._id}/order-items`,
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${session?.user?.access_token}`
+                        },
+                        queryParams: {
+                            page: current,
+                            limit: limit,
+                            sort: sort,
+                            search: search,
+                        },
+                        nextOption: {
+                            next: {tags: ['list-order']}
+                        }
+                    });
+
+                    setOrder(response.data);
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
+            }
+        };
 
         fetchData();
-
 
     }, [props.searchParams, session]);
 
@@ -191,10 +223,12 @@ export default function StorePage(props: IProps) {
     const totalDelivery = Array.isArray(dataChart) ? dataChart.map(item => item.totalDeliveryFee) : [];
     const xLabels = Array.isArray(dataChart) ? dataChart.map(item => item.title.split("-").pop()) : [];
 
-    console.log(product)
+    const [isModalOpen, setModalOpen] = useState(false);
+    const toggleModal = () => setModalOpen(!isModalOpen);
 
     return (
         <div className='px-32 py-8 bg-gray-100'>
+            <Modal type={'product'} open={isModalOpen} onClose={toggleModal} title={"Product"}/>
             <div className="bg-white w-full">
                 <div className="flex">
                     <div className="flex flex-col w-2/8 p-8 border-r-2">
@@ -356,7 +390,11 @@ export default function StorePage(props: IProps) {
             <div className="mt-8 bg-white p-8">
                 <div className="flex justify-between">
                     <h1 className="text-xl font-semibold">All Product List</h1>
-                    <Button className="bg-orange-400 rounded-lg px-2 py-1">Add Product</Button>
+                    <div className='flex items-center space-x-5 text-nowrap'>
+                        <SearchBar placeholder={"Search product..."}/>
+                        <Button onClick={toggleModal} className="bg-orange-400 rounded-lg px-2 py-1">Add
+                            Product</Button>
+                    </div>
                 </div>
                 <TableHeader header={headerProduct}/>
                 <div className="py-2">
@@ -373,22 +411,19 @@ export default function StorePage(props: IProps) {
             <div className="mt-8 bg-white p-8">
                 <h1 className="text-xl text-left font-semibold">All Order List</h1>
                 <div className="mt-4 grid grid-cols-8 py-2 px-4 bg-gray-100 font-semibold text-center">
-                    <p className="text-left">Id</p>
+                    <p>Id</p>
                     <p>Created At</p>
                     <p>Customer</p>
                     <p>Total</p>
                     <p>Payment Status</p>
-                    <p>Item</p>
+                    <p>Quantity</p>
                     <p>Order Status</p>
                     <p>Action</p>
                 </div>
                 <div className="py-2 px-4">
-                    <OrderListItem></OrderListItem>
-                    <OrderListItem></OrderListItem>
-                    <OrderListItem></OrderListItem>
-                    <OrderListItem></OrderListItem>
-                    <OrderListItem></OrderListItem>
-                    <OrderListItem></OrderListItem>
+                    {order && order?.map((item) => (
+                        <OrderListItem data={item}></OrderListItem>
+                    ))}
                 </div>
                 <div className="flex w-full justify-end mt-4">
                     <PaginationComponent current={1} limit={10} totalPage={10}/>

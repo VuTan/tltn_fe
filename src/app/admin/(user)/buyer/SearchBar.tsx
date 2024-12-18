@@ -1,12 +1,12 @@
 'use client'
-import { useState } from 'react';
+import {useState} from 'react';
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
-const SearchBar = ({ placeholder }) => {
+const SearchBar = ({placeholder}) => {
     const [searchTerm, setSearchTerm] = useState('');
     const searchParams = useSearchParams();
     const pathname = usePathname();
-    const { replace } = useRouter();
+    const {replace} = useRouter();
 
     const handleSearch = () => {
         const params = new URLSearchParams();

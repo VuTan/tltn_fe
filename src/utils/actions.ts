@@ -77,12 +77,12 @@ export const handleDeleteAction = async (type, id: any) => {
     return res;
 }
 
-export const handleUpdateProduct = async (type,data) => {
+export const handleUpdateProduct = async (type, data: any) => {
     const session = await auth();
     const res = await sendRequest<IBackendRes<any>>({
         url: `http://localhost:8080/api/${type}`,
         method: "PATCH",
-        body:{
+        body: {
             ...data
         },
         headers: {
@@ -90,6 +90,23 @@ export const handleUpdateProduct = async (type,data) => {
         },
     })
 
-    revalidateTag(`list-${type}`)
+    revalidateTag('list-product')
+    return res;
+}
+
+export const handleUpdateItemOrder = async (data) => {
+    const session = await auth();
+    const res = await sendRequest<IBackendRes<any>>({
+        url: `http://localhost:8080/api/order-item`,
+        method: "PATCH",
+        body: {
+            ...data
+        },
+        headers: {
+            Authorization: `Bearer ${session?.user?.access_token}`,
+        },
+    })
+
+    revalidateTag('list-order')
     return res;
 }

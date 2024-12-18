@@ -2,18 +2,18 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import {faTrash} from "@fortawesome/free-solid-svg-icons/faTrash";
-import {handleDeleteAction, handleUpdateProduct} from "@/utils/actions";
+import {handleDeleteAction} from "@/utils/actions";
 import toast, {Toaster} from "react-hot-toast";
 import Modal from "@/conponents/Popup";
 import {useState} from "react";
 
-export default function ActionMethod({type, data, children}) {
+export default function ActionMethod({type, data, session}) {
     const [isModalOpen, setModalOpen] = useState(false);
 
     const toggleModal = () => setModalOpen(!isModalOpen);
 
     const handleDelete = async () => {
-        const res = await handleDeleteAction(type, data);
+        const res = await handleDeleteAction(type, data._id);
         if (res?.data) {
             toast.success('Delete succeeded!');
         } else {
@@ -23,9 +23,7 @@ export default function ActionMethod({type, data, children}) {
 
     return (
         <>
-            <Modal open={isModalOpen} onClose={toggleModal} title={"Product"}>
-                {children}
-            </Modal>
+            <Modal session={session} data={data} type={type} open={isModalOpen} onClose={toggleModal}/>
             <Toaster position={"bottom-center"}/>
             <div className="flex justify-center space-x-4">
                 <div onClick={toggleModal}>
