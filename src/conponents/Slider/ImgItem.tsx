@@ -5,7 +5,7 @@ import FavoriteButton from "@/conponents/Button/FavoriteButton";
 import EyeButton from "@/conponents/Button/EyeButton";
 
 
-function ImgItem(src ) {
+function ImgItem({src}) {
     const handleAddToCartClick = (e) => {
         e.preventDefault();
         console.log("add to cart")
@@ -18,9 +18,16 @@ function ImgItem(src ) {
                 <EyeButton src="/img/item.png"></EyeButton>
             </div>
             <Image className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                   src="/img/item.png" alt="asdasd" height={100}
-                   width={100}/>
-            <div className="absolute w-full bottom-0 bg-black translate-y-12 transition-transform duration-500 group-hover:translate-y-0">
+                   src={src} alt="" height={200}
+                   width={200}
+                   style={{
+                       width: '100%', // Ví dụ: làm cho ảnh lấp đầy container
+                       height: '100%', // Ví dụ: làm cho ảnh lấp đầy container
+                       objectFit: 'cover', // Điều chỉnh cách ảnh vừa với container
+                   }}
+            />
+            <div
+                className="absolute w-full bottom-0 bg-black translate-y-12 transition-transform duration-500 group-hover:translate-y-0">
                 <p onClick={handleAddToCartClick} className="text-center text-white ">Add To Cart</p>
             </div>
         </div>

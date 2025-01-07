@@ -234,40 +234,40 @@ const DashboardPage = () => {
                 )}
             </div>
 
-            <div className="mt-8 flex space-x-8">
-                <div className="w-3/5 bg-gray-200 p-6 bg-white">
-                    <h3 className="text-left text-xl font-semibold">Top Seller</h3>
-                    <div className="grid grid-cols-4 mt-2 px-4 py-2 bg-gray-50">
-                        <p>Name</p>
-                        <p className="text-center">Revenues</p>
-                        <p className="text-center">Sales</p>
-                        <p className="text-center">Conversion</p>
-                    </div>
-                    <SellerItem></SellerItem>
-                    <SellerItem></SellerItem>
-                    <SellerItem></SellerItem>
-                    <SellerItem></SellerItem>
-                    <SellerItem></SellerItem>
-                    <div className="text-center text-blue-500 mt-4">
-                        <a href="#">More...</a>
-                    </div>
-                </div>
+            {/*<div className="mt-8 flex space-x-8">*/}
+            {/*    <div className="w-3/5 bg-gray-200 p-6 bg-white">*/}
+            {/*        <h3 className="text-left text-xl font-semibold">Top Seller</h3>*/}
+            {/*        <div className="grid grid-cols-4 mt-2 px-4 py-2 bg-gray-50">*/}
+            {/*            <p>Name</p>*/}
+            {/*            <p className="text-center">Revenues</p>*/}
+            {/*            <p className="text-center">Sales</p>*/}
+            {/*            <p className="text-center">Conversion</p>*/}
+            {/*        </div>*/}
+            {/*        <SellerItem></SellerItem>*/}
+            {/*        <SellerItem></SellerItem>*/}
+            {/*        <SellerItem></SellerItem>*/}
+            {/*        <SellerItem></SellerItem>*/}
+            {/*        <SellerItem></SellerItem>*/}
+            {/*        <div className="text-center text-blue-500 mt-4">*/}
+            {/*            <a href="#">More...</a>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
 
 
-                <div className="w-2/5 bg-gray-200 p-6 bg-white">
-                    <h3 className="text-left text-xl font-semibold">Feedback</h3>
-                    <div className="flex flex-col space-y-6">
-                        <FeedbackItem></FeedbackItem>
-                        <FeedbackItem></FeedbackItem>
-                        <FeedbackItem></FeedbackItem>
-                        <FeedbackItem></FeedbackItem>
-                        <FeedbackItem></FeedbackItem>
-                    </div>
-                    <div className="text-center text-blue-500 mt-4">
-                        <a href="">More...</a>
-                    </div>
-                </div>
-            </div>
+            {/*    <div className="w-2/5 bg-gray-200 p-6 bg-white">*/}
+            {/*        <h3 className="text-left text-xl font-semibold">Feedback</h3>*/}
+            {/*        <div className="flex flex-col space-y-6">*/}
+            {/*            <FeedbackItem></FeedbackItem>*/}
+            {/*            <FeedbackItem></FeedbackItem>*/}
+            {/*            <FeedbackItem></FeedbackItem>*/}
+            {/*            <FeedbackItem></FeedbackItem>*/}
+            {/*            <FeedbackItem></FeedbackItem>*/}
+            {/*        </div>*/}
+            {/*        <div className="text-center text-blue-500 mt-4">*/}
+            {/*            <a href="">More...</a>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
         </>
     );
 }

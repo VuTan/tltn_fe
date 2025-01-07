@@ -12,6 +12,7 @@ const Profile = async () => {
         headers: {
             Authorization: `Bearer ${session?.user?.access_token}`
         }
+
     })
 
     const orderData = await sendRequest<IBackendRes<any>>({
@@ -25,7 +26,7 @@ const Profile = async () => {
 
     return (
         <div className="px-24 py-12">
-            <ContentProfile user={userData.data} order={orderData}/>
+            <ContentProfile user={userData.data} order={orderData} session={session}/>
         </div>
     );
 }

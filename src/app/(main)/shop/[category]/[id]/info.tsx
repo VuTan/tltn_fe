@@ -67,7 +67,7 @@ const InfomationProduct = ({data}) => {
                     <div className="flex space-x-4">
                         <div className="min-w-40 content-center">
                             <button className="w-full text-center bg-red-500 p-2 rounded-lg"
-                                    onClick={() => handleAddToCart(data?.data)}>Buy Now
+                                    onClick={() => handleAddToCart(data?.data)}>Add to cart
                             </button>
                         </div>
                         <div className="px-1 rounded-lg content-center border-2 select-none"><FavoriteButton

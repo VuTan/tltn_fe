@@ -8,15 +8,17 @@ import {Progress} from "@nextui-org/progress";
 import {faArrowTrendUp} from "@fortawesome/free-solid-svg-icons/faArrowTrendUp";
 import Link from "next/link";
 
-export default function Seller() {
-    const value = 7800;
+export default function Seller({seller}) {
+    const value = Math.floor(Math.random() * (20000 - 5000 + 1)) + 5000;
+    const stock = Math.floor(Math.random() * (500 - 100 + 1)) + 500;
+    const sell = Math.floor(Math.random() * (1000 - 100 + 1)) + 1000;
     return (
         <div className="bg-white mt-8">
             <div className=" p-8">
                 <div className="bg-gray-200 justify-items-center">
-                    <Image src="/img/samsung.png" width={200} height={200}></Image>
+                    <Image src="/logo.png" width={300} height={200} alt={"Logo seller"}></Image>
                 </div>
-                <h3 className="py-2 text-xl text-left font-bold">Samsung</h3>
+                <h3 className="py-2 text-xl text-left font-bold">{seller.name}</h3>
                 <div className="flex items-center space-x-1">
                     <div className="flex px-2 py-1  rounded-lg bg-gray-100">
                         <FontAwesomeIcon icon={faStar} fill className="text-yellow-300 size-4"/>
@@ -27,15 +29,15 @@ export default function Seller() {
                 <div className="mt-3">
                     <div className="flex space-x-2">
                         <FontAwesomeIcon icon={faMapLocationDot}/>
-                        <p>100, Seul, Korea</p>
+                        <p>{seller.address}</p>
                     </div>
                     <div className="flex space-x-2">
                         <FontAwesomeIcon icon={faEnvelope}/>
-                        <p>samsung@gmail.com</p>
+                        <p>{seller.email}</p>
                     </div>
                     <div className="flex space-x-2">
                         <FontAwesomeIcon icon={faPhone}/>
-                        <p>+243 812-801-9335</p>
+                        <p>{seller.phone}</p>
                     </div>
                 </div>
 
@@ -43,7 +45,7 @@ export default function Seller() {
                     <Progress
                         label={" "}
                         value={value}
-                        maxValue={10000}
+                        maxValue={20000}
                         color="warning"
                         formatOptions={{style: "currency", currency: "ARS"}}
                         showValueLabel={true}
@@ -65,11 +67,11 @@ export default function Seller() {
 
                 <div className="flex mt-6 justify-between">
                     <div className="justify-items-center">
-                        <p>865</p>
+                        <p>{stock}</p>
                         <p className="font-light">Item Stock</p>
                     </div>
                     <div className="justify-items-center">
-                        <p>865</p>
+                        <p>{sell}</p>
                         <p className="font-light">Sells</p>
                     </div>
                 </div>

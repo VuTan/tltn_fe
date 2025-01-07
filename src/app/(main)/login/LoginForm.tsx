@@ -67,7 +67,7 @@ const LoginForm = () => {
                     <label className="text-black"> Password
                         <input className="w-full rounded-md border-2 py-1 px-3 text-black
                         focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-black/40"
-                               type="text"
+                               type="password"
                                {...register("password", {
                                    required: "Password is required.",
                                })}/>

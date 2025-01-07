@@ -77,8 +77,8 @@ export default function StorePage(props: IProps) {
     };
 
     const years = Array.from({length: 50}, (_, index) => ({
-        key: String(2024 - index),
-        label: String(2024 - index),
+        key: String(2025 - index),
+        label: String(2025 - index),
     }));
 
     const {data: session} = useSession()
@@ -421,7 +421,7 @@ export default function StorePage(props: IProps) {
                     <p>Action</p>
                 </div>
                 <div className="py-2 px-4">
-                    {order && order?.map((item) => (
+                    {order && order?.slice(0, 10).map((item) => (
                         <OrderListItem data={item}></OrderListItem>
                     ))}
                 </div>

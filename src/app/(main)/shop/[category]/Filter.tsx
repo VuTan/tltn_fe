@@ -27,7 +27,8 @@ const Filter = (props: any) => {
                 )}
                 <FilterOptions
                     title="Sort By"
-                    data={["Price Low to High", "Price High to Low", "Newest", "Oldest"]}
+                    data={["Price Low to High", "Price High to Low", "A - Z", "Z - A"]}
+                    key={['low-high','high-low','a-z','z-a']}
                 />
             </div>
             <hr className="border-gray-300 my-4"/>

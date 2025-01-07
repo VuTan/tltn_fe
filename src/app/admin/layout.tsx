@@ -40,6 +40,10 @@ export default async function RootLayout({children,}: Readonly<{
                         <MenuItem menuData={userMenu}/>
                         <Link href="/admin/product">
                             <div className=" w-full text-white text-left py-3 px-4
+                                 hover:bg-gray-800">Supplier
+                            </div>
+                        </Link><Link href="/admin/product">
+                            <div className=" w-full text-white text-left py-3 px-4
                                  hover:bg-gray-800">Product
                             </div>
                         </Link>

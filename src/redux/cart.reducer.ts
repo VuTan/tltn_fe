@@ -7,6 +7,7 @@ export interface CartState {
     cartArr: Product[],
     cartTotalQuantity: number,
     cartTotalAmount: number
+    discount: number
 }
 
 interface ChangeQuantityPayload {
@@ -17,7 +18,7 @@ interface ChangeQuantityPayload {
 const calculateCartSummary = (cartArr: Product[]) => {
     const totalQuantity = cartArr.reduce((total, product) => total + product.quantity, 0);
     const totalAmount = cartArr.reduce((total, product) => total + product.price * product.quantity, 0);
-    return { totalQuantity, totalAmount };
+    return {totalQuantity, totalAmount};
 };
 
 const initialState: CartState = {
@@ -40,16 +41,16 @@ const cartSlice = createSlice({
             if (productIndex >= 0) {
                 state.cartArr[productIndex].quantity += action.payload.quantity;
                 toast.success(`Increased product quantity`, {
-                    position: "bottom-left"
+                    position: "bottom-right"
                 })
             } else {
                 state.cartArr.push(action.payload)
                 toast.success(`Add product to cart`, {
-                    position: "bottom-left"
+                    position: "bottom-right"
                 })
             }
 
-            const { totalQuantity, totalAmount } = calculateCartSummary(state.cartArr);
+            const {totalQuantity, totalAmount} = calculateCartSummary(state.cartArr);
             state.cartTotalQuantity = totalQuantity;
             state.cartTotalAmount = totalAmount;
             localStorage.setItem("cartProduct", JSON.stringify(state.cartArr));
@@ -64,14 +65,14 @@ const cartSlice = createSlice({
                 if (product.quantity === 1) {
                     state.cartArr.splice(productIndex, 1);
                     toast.error(`Removed product from cart`, {
-                        position: "bottom-left"
+                        position: "bottom-right"
                     });
                 } else {
                     product.quantity -= 1;
                 }
             }
 
-            const { totalQuantity, totalAmount } = calculateCartSummary(state.cartArr);
+            const {totalQuantity, totalAmount} = calculateCartSummary(state.cartArr);
             state.cartTotalQuantity = totalQuantity;
             state.cartTotalAmount = totalAmount;
             localStorage.setItem("cartProduct", JSON.stringify(state.cartArr));
@@ -86,7 +87,7 @@ const cartSlice = createSlice({
                 product.quantity += 1;
             }
 
-            const { totalQuantity, totalAmount } = calculateCartSummary(state.cartArr);
+            const {totalQuantity, totalAmount} = calculateCartSummary(state.cartArr);
             state.cartTotalQuantity = totalQuantity;
             state.cartTotalAmount = totalAmount;
             localStorage.setItem('cartProduct', JSON.stringify(state.cartArr));
@@ -104,13 +105,13 @@ const cartSlice = createSlice({
 
                 if (quantity === 0) {
                     state.cartArr.splice(productIndex, 1); // Xóa sản phẩm nếu số lượng bằng 0
-                    toast.error("Removed product from cart", {position: "bottom-left"});
+                    toast.error("Removed product from cart", {position: "bottom-right"});
                 } else {
                     cartProduct.quantity = quantity; // Cập nhật số lượng sản phẩm
                 }
             }
 
-            const { totalQuantity, totalAmount } = calculateCartSummary(state.cartArr);
+            const {totalQuantity, totalAmount} = calculateCartSummary(state.cartArr);
             state.cartTotalQuantity = totalQuantity;
             state.cartTotalAmount = totalAmount;
             localStorage.setItem("cartProduct", JSON.stringify(state.cartArr));
@@ -122,14 +123,18 @@ const cartSlice = createSlice({
             state.cartArr = updatedCartArr;
 
             toast.error(`Remove product to cart`, {
-                position: "bottom-left"
+                position: "bottom-right"
             });
 
-            const { totalQuantity, totalAmount } = calculateCartSummary(state.cartArr);
+            const {totalQuantity, totalAmount} = calculateCartSummary(state.cartArr);
             state.cartTotalQuantity = totalQuantity;
             state.cartTotalAmount = totalAmount;
             localStorage.setItem("cartProduct", JSON.stringify(state.cartArr));
         },
+        addDiscount: (state, action: PayloadAction<number>) => {
+            state.discount = action.payload.valueOf()
+        },
+
     }
 });
 
@@ -139,6 +144,7 @@ export const {
     decrementQuantity,
     incrementQuantity,
     changeQuantity,
-    removeProduct
+    removeProduct,
+    addDiscount
 } = cartSlice.actions;
 export default cartReducer;

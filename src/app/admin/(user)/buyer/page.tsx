@@ -48,9 +48,8 @@ export default async function UserPage(props: IProps) {
     return (
         <>
             <div className="flex space-x-8">
-                <DashboardCardItem/>
-                <DashboardCardItem/>
-                <DashboardCardItem/>
+                <DashboardCardItem value={342} title={"Total user"}/>
+                <DashboardCardItem value={"123,542"}/>
             </div>
             <div className="mt-8 bg-gray-200 p-6 bg-white">
                 <div className="flex justify-between items-center my-2">
@@ -58,7 +57,7 @@ export default async function UserPage(props: IProps) {
                     <SearchBar placeholder={"Search user..."}/>
                 </div>
                 <TableHeader header={header}/>
-                {data ? data?.data.users.map((item) => (
+                {data ? data?.data?.users.map((item) => (
                     <div key={item.email} className="hover:bg-gray-100 border-b">
                         <Buyer data={item}/>
                     </div>
@@ -68,7 +67,7 @@ export default async function UserPage(props: IProps) {
                     </div>
                 )}
                 <div className="flex w-full justify-end mt-4">
-                    <PaginationComponent current={current} limit={limit} totalPage={data?.data.totalPages}/>
+                    <PaginationComponent current={current} limit={limit} totalPage={data?.data?.totalPages}/>
                 </div>
             </div>
         </>

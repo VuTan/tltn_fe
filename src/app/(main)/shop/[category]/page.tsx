@@ -11,6 +11,7 @@ interface IProps {
 const ShopPage = async (props: IProps) => {
     const {category} = props.params;
     const subcategory = props?.searchParams?.subcategory;
+    const sort = props?.searchParams?.sort;
 
     const categoryData = await sendRequest<IBackendRes<any>>({
         url: `http://localhost:8080/api/category/find`,
@@ -25,6 +26,9 @@ const ShopPage = async (props: IProps) => {
         productsData = await sendRequest<IBackendRes<any>>({
             url: `http://localhost:8080/api/category/${category}/products`,
             method: "GET",
+            queryParams:{
+                sort: sort
+            }
         })
     } else {
         productsData = await sendRequest<IBackendRes<any>>({
@@ -32,6 +36,7 @@ const ShopPage = async (props: IProps) => {
             method: "GET",
             queryParams: {
                 subcategory: subcategory,
+                sort: sort,
             },
         })
     }

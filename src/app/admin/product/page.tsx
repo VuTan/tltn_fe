@@ -24,7 +24,7 @@ const header = [
 export default async function AmdinPage(props: IProps) {
     const session = await auth()
     const current = props?.searchParams?.page ?? 1;
-    const limit = props?.searchParams?.limit ?? 20;
+    const limit = props?.searchParams?.limit ?? 10;
     const sort = props?.searchParams?.sort ?? '';
     const search = props?.searchParams?.search ?? '';
 
@@ -58,7 +58,6 @@ export default async function AmdinPage(props: IProps) {
             <div className="flex space-x-8">
                 <DashboardCardItem title='Total Product' value={dashboard.data.totalProducts.toLocaleString()} icon={faBagShopping}/>
                 <DashboardCardItem title='In Stock' value={dashboard.data.totalStock.toLocaleString()} icon={faCubes}/>
-                <DashboardCardItem/>
             </div>
             <div className="mt-8 bg-gray-200 p-6 bg-white">
                 <div className="flex justify-between items-center my-2">

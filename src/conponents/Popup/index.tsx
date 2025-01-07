@@ -4,6 +4,7 @@ import React from "react";
 import ProductForm from "@/conponents/Product/FromDetailProduct";
 import OrderItemForm from "@/conponents/Order/FormOrderItem";
 import OrderForm from "@/conponents/Order/FormOrder";
+import VoucherCreateForm from "@/conponents/Voucher/VoucherCreateForm";
 
 const Modal = ({open, onClose, data, type, session}) => {
     if (!open) return null;
@@ -32,6 +33,9 @@ const Modal = ({open, onClose, data, type, session}) => {
                 )}
                 {type === 'order' && (
                     <OrderForm session={session} data={data} onClose={onClose}/>
+                )}
+                {type === 'voucher' && (
+                    <VoucherCreateForm nClose={onClose}/>
                 )}
             </div>
         </div>
